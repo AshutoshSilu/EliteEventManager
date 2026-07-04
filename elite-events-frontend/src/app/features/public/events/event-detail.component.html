@@ -1,0 +1,51 @@
+<app-header />
+@if (event()) {
+  <section class="event-detail">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <img [src]="event()!.coverImageUrl || 'assets/images/event-placeholder.jpg'" class="event-cover" [alt]="event()!.title">
+          <h1 class="mt-4">{{ event()!.title }}</h1>
+          <div class="event-badges">
+            <span class="badge bg-primary">{{ event()!.categoryName }}</span>
+            <span class="badge" [class]="'bg-' + getStatusColor(event()!.status)">{{ event()!.status }}</span>
+          </div>
+          <div class="event-description mt-3">
+            <p>{{ event()!.description }}</p>
+          </div>
+          @if (event()!.images?.length) {
+            <h4 class="mt-4">Gallery</h4>
+            <div class="gallery-grid">
+              @for (img of event()!.images; track img.id) {
+                <img [src]="img.imageUrl" [alt]="img.caption || event()!.title" class="gallery-img">
+              }
+            </div>
+          }
+        </div>
+        <div class="col-lg-4">
+          <div class="booking-card">
+            <h4>Event Details</h4>
+            <ul class="detail-list">
+              <li><i class="material-icons">calendar_today</i> {{ event()!.startDate | date:'fullDate' }}</li>
+              <li><i class="material-icons">schedule</i> {{ event()!.startDate | date:'shortTime' }} - {{ event()!.endDate | date:'shortTime' }}</li>
+              <li><i class="material-icons">location_on</i> {{ event()!.venueName || 'TBA' }}</li>
+              @if (event()!.availableSeats !== null) {
+                <li><i class="material-icons">event_seat</i> {{ event()!.availableSeats }} seats available</li>
+              }
+            </ul>
+            <div class="price-section">
+              @if (event()!.discountPrice) {
+                <span class="old-price">{{ event()!.price | currency:'INR' }}</span>
+                <span class="current-price">{{ event()!.discountPrice | currency:'INR' }}</span>
+              } @else {
+                <span class="current-price">{{ event()!.price | currency:'INR' }}</span>
+              }
+            </div>
+            <a routerLink="/auth/login" class="btn btn-primary-custom w-100 mt-3">Book Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}
+<app-footer />

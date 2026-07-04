@@ -1,0 +1,33 @@
+    <app-header />
+    <section class="page-header"><div class="container"><h1>Contact Us</h1><p>We'd love to hear from you</p></div></section>
+    <section class="section-padding">
+      <div class="container">
+        <div class="row g-5">
+          <div class="col-lg-5">
+            <h3>Get in Touch</h3>
+            <p class="text-muted">Have questions about our services? Want to discuss your upcoming event? Reach out and we'll respond within 24 hours.</p>
+            <div class="contact-info">
+              <div class="info-item"><span class="material-icons">location_on</span><div><strong>Address</strong><p>123 Event Street, Mumbai, MH 400001, India</p></div></div>
+              <div class="info-item"><span class="material-icons">phone</span><div><strong>Phone</strong><p>+91-9876543210</p></div></div>
+              <div class="info-item"><span class="material-icons">email</span><div><strong>Email</strong><p>info&#64;eliteevents.com</p></div></div>
+              <div class="info-item"><span class="material-icons">schedule</span><div><strong>Hours</strong><p>Mon-Sat: 9:00 AM - 8:00 PM</p></div></div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="contact-form-card">
+              <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                <div class="row g-3">
+                  <div class="col-md-6"><input class="form-control" placeholder="Your Name" formControlName="name"></div>
+                  <div class="col-md-6"><input class="form-control" placeholder="Email Address" formControlName="email"></div>
+                  <div class="col-md-6"><input class="form-control" placeholder="Phone Number" formControlName="phone"></div>
+                  <div class="col-md-6"><input class="form-control" placeholder="Subject" formControlName="subject"></div>
+                  <div class="col-12"><textarea class="form-control" rows="5" placeholder="Your Message" formControlName="message"></textarea></div>
+                  <div class="col-12"><button type="submit" class="btn btn-primary-custom" [disabled]="contactForm.invalid">Send Message</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <app-footer />

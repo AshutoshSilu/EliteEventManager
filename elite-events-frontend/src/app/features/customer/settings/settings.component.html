@@ -1,0 +1,38 @@
+<div class="page-content">
+  <h2>Settings</h2>
+
+  <!-- Theme Toggle -->
+  <div class="settings-card">
+    <h4>Appearance</h4>
+    <div class="setting-row">
+      <div><strong>Dark Mode</strong><p class="text-muted">Switch between light and dark theme</p></div>
+      <label class="toggle">
+        <input type="checkbox" [checked]="themeService.theme() === 'dark'" (change)="themeService.toggleTheme()">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Change Password -->
+  <div class="settings-card">
+    <h4>Change Password</h4>
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <div class="row g-3">
+        <div class="col-md-6"><input class="form-control" type="password" placeholder="Current Password" formControlName="currentPassword"></div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6"><input class="form-control" type="password" placeholder="New Password" formControlName="newPassword"></div>
+        <div class="col-md-6"><input class="form-control" type="password" placeholder="Confirm New Password" formControlName="confirmPassword"></div>
+        <div class="col-12"><button type="submit" class="btn btn-primary-custom btn-sm" [disabled]="passwordForm.invalid">Update Password</button></div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="settings-card danger">
+    <h4>Danger Zone</h4>
+    <div class="setting-row">
+      <div><strong>Delete Account</strong><p class="text-muted">Permanently delete your account and all data</p></div>
+      <button class="btn btn-outline-danger btn-sm">Delete Account</button>
+    </div>
+  </div>
+</div>

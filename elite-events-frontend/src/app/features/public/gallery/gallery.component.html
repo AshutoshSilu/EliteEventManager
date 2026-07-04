@@ -1,0 +1,20 @@
+<app-header />
+<section class="page-header"><div class="container"><h1>Gallery</h1><p>A glimpse into our past events</p></div></section>
+<section class="section-padding">
+  <div class="container">
+    <div class="filter-tabs">
+      @for (tab of tabs; track tab) {
+        <button [class.active]="activeTab === tab" (click)="activeTab = tab">{{ tab }}</button>
+      }
+    </div>
+    <div class="gallery-grid">
+      @for (item of filteredItems; track item.url) {
+        <div class="gallery-item">
+          <img [src]="item.url" [alt]="item.title">
+          <div class="overlay"><span>{{ item.title }}</span></div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+<app-footer />

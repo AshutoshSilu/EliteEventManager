@@ -1,0 +1,18 @@
+    <app-header />
+    <section class="page-header"><div class="container"><h1>Frequently Asked Questions</h1><p>Find answers to common questions</p></div></section>
+    <section class="section-padding">
+      <div class="container" style="max-width: 800px;">
+        @for (faq of faqs; track faq.question; let i = $index) {
+          <div class="faq-item" (click)="toggle(i)">
+            <div class="faq-question">
+              <h5>{{ faq.question }}</h5>
+              <span class="material-icons">{{ openIndex === i ? 'expand_less' : 'expand_more' }}</span>
+            </div>
+            @if (openIndex === i) {
+              <div class="faq-answer"><p>{{ faq.answer }}</p></div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+    <app-footer />

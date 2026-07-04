@@ -1,0 +1,24 @@
+    .page-header { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; padding: 60px 0; text-align: center; }
+    .page-header h1 { font-size: 2.5rem; font-weight: 700; }
+    .page-header p { opacity: 0.9; font-size: 1.1rem; }
+    .filters-bar { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+    .search-input { max-width: 300px; border-radius: 8px; }
+    .filter-select { max-width: 180px; border-radius: 8px; }
+    .event-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; height: 100%; display: flex; flex-direction: column; }
+    .event-image { position: relative; height: 200px; overflow: hidden; }
+    .event-image img { width: 100%; height: 100%; object-fit: cover; }
+    .badge-category { position: absolute; top: 12px; left: 12px; background: #6366f1; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; }
+    .badge-featured { position: absolute; top: 12px; right: 12px; background: #f59e0b; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
+    .event-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .event-body h5 { font-weight: 600; margin-bottom: 12px; }
+    .event-meta { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; color: #64748b; font-size: 0.85rem; flex: 1; }
+    .event-meta span { display: flex; align-items: center; gap: 6px; }
+    .event-meta .material-icons { font-size: 16px; color: #6366f1; }
+    .event-footer { display: flex; justify-content: space-between; align-items: center; }
+    .price-block { display: flex; flex-direction: column; }
+    .price { font-size: 1.1rem; font-weight: 700; color: #6366f1; }
+    .original-price { text-decoration: line-through; color: #94a3b8; font-size: 0.85rem; }
+    .empty-icon { font-size: 64px; color: #cbd5e1; }
+    .pagination-wrapper { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 40px; }
+    .page-info { color: #64748b; }
+    @media (max-width: 768px) { .filters-bar { flex-direction: column; } .search-input, .filter-select { max-width: 100%; } }

@@ -1,0 +1,16 @@
+    .back-link { display: inline-flex; align-items: center; gap: 4px; color: #6366f1; font-weight: 500; text-decoration: none; }
+    .detail-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 24px; }
+    .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .detail-header h3 { font-weight: 700; }
+    .status-badge { padding: 6px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+    .status-pending { background: #fef3c7; color: #92400e; } .status-confirmed { background: #d1fae5; color: #065f46; }
+    .status-completed { background: #dbeafe; color: #1e40af; } .status-cancelled { background: #fee2e2; color: #991b1b; }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .info-block label { display: block; font-size: 0.75rem; text-transform: uppercase; color: #64748b; }
+    .info-block span { font-weight: 600; color: #1e293b; }
+    .info-block.full-width { grid-column: 1 / -1; }
+    h5 { font-weight: 600; margin: 16px 0; }
+    .pricing-table { max-width: 300px; }
+    .price-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.9rem; color: #475569; }
+    .price-row.total { font-weight: 700; color: #6366f1; font-size: 1.1rem; border-top: 1px solid #e2e8f0; padding-top: 12px; }
+    .table th { font-size: 0.8rem; text-transform: uppercase; color: #64748b; }

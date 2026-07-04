@@ -1,0 +1,55 @@
+<div class="page-content">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Bookings</h2>
+    <a routerLink="/events" class="btn btn-primary-custom btn-sm">Book New Event</a>
+  </div>
+
+  <div class="filters mb-3">
+    <select class="form-select" style="max-width:180px" [(ngModel)]="statusFilter" (change)="applyFilter()">
+      <option value="">All Statuses</option>
+      <option value="Pending">Pending</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+  </div>
+
+  @for (booking of filteredBookings(); track booking.id) {
+    <div class="booking-card">
+      <div class="booking-header">
+        <span class="booking-number">{{ booking.bookingNumber }}</span>
+        <span class="status-badge" [class]="'status-' + booking.status.toLowerCase()">{{ booking.status }}</span>
+      </div>
+      <div class="booking-body">
+        <div class="booking-detail">
+          <span class="label">Event/Venue</span>
+          <span class="value">{{ booking.eventTitle || booking.venueName || 'N/A' }}</span>
+        </div>
+        <div class="booking-detail">
+          <span class="label">Date</span>
+          <span class="value">{{ booking.eventDate }}</span>
+        </div>
+        <div class="booking-detail">
+          <span class="label">Guests</span>
+          <span class="value">{{ booking.guestCount }}</span>
+        </div>
+        <div class="booking-detail">
+          <span class="label">Amount</span>
+          <span class="value price">{{ booking.totalAmount | currency:'INR' }}</span>
+        </div>
+      </div>
+      <div class="booking-actions">
+        <a [routerLink]="['/customer/bookings', booking.id]" class="btn btn-outline-custom btn-sm">View Details</a>
+        @if (booking.status === 'Pending') {
+          <button class="btn btn-sm btn-outline-danger" (click)="cancelBooking(booking)">Cancel</button>
+        }
+      </div>
+    </div>
+  } @empty {
+    <div class="empty-state">
+      <span class="material-icons">event_busy</span>
+      <h4>No bookings found</h4>
+      <p>Start by <a routerLink="/events">browsing events</a> or <a routerLink="/venues">exploring venues</a></p>
+    </div>
+  }
+</div>

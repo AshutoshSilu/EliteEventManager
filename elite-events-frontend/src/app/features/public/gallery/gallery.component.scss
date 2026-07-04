@@ -1,0 +1,12 @@
+.page-header { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; padding: 60px 0; text-align: center; }
+.page-header h1 { font-size: 2.5rem; font-weight: 700; }
+.filter-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+.filter-tabs button { padding: 8px 20px; border: 2px solid #e2e8f0; border-radius: 20px; background: white; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+.filter-tabs button.active, .filter-tabs button:hover { background: #6366f1; color: white; border-color: #6366f1; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.gallery-item { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; height: 220px; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.gallery-item:hover img { transform: scale(1.05); }
+.overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: end; padding: 16px; opacity: 0; transition: opacity 0.3s; }
+.gallery-item:hover .overlay { opacity: 1; }
+.overlay span { color: white; font-weight: 600; }

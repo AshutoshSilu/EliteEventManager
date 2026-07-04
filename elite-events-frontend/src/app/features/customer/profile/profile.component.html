@@ -1,0 +1,36 @@
+<div class="page-content">
+  <h2>My Profile</h2>
+  <div class="profile-card">
+    <div class="avatar-section">
+      <div class="avatar">{{ authService.user()?.fullName?.charAt(0) || 'U' }}</div>
+      <h4>{{ authService.user()?.fullName }}</h4>
+      <p class="text-muted">{{ authService.user()?.email }}</p>
+    </div>
+    <form [formGroup]="profileForm" (ngSubmit)="onSave()">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">First Name</label>
+          <input class="form-control" formControlName="firstName">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Last Name</label>
+          <input class="form-control" formControlName="lastName">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Phone Number</label>
+          <input class="form-control" formControlName="phoneNumber">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Profile Image URL</label>
+          <input class="form-control" formControlName="profileImageUrl">
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary-custom" [disabled]="profileForm.invalid || isSaving">
+            @if (isSaving) { <span class="spinner-border spinner-border-sm me-2"></span> }
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

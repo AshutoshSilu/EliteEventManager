@@ -1,0 +1,53 @@
+.hero-section {
+  position: relative; min-height: 90vh; display: flex; align-items: center;
+  background: url('/assets/images/hero-bg.jpg') center/cover no-repeat;
+  color: white;
+}
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(99,102,241,0.85), rgba(79,70,229,0.9)); }
+.hero-content { position: relative; z-index: 2; text-align: center; max-width: 800px; margin: 0 auto; }
+.hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+.hero-title span { color: #fbbf24; }
+.hero-subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.hero-actions { display: flex; gap: 16px; justify-content: center; margin-bottom: 48px; }
+.hero-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.stat-item { text-align: center; }
+.stat-number { display: block; font-size: 2rem; font-weight: 700; }
+.stat-label { font-size: 0.85rem; opacity: 0.8; }
+.btn-lg { padding: 14px 32px; font-size: 1.05rem; border-radius: 10px; font-weight: 600; }
+.btn-outline-light { border: 2px solid white; color: white; background: transparent; }
+.btn-outline-light:hover { background: white; color: #4f46e5; }
+
+.service-card {
+  background: white; border-radius: 12px; padding: 32px 24px; text-align: center;
+  border: 1px solid #e2e8f0; height: 100%;
+}
+.service-icon { font-size: 48px; color: #6366f1; margin-bottom: 16px; }
+.service-card h4 { font-weight: 600; margin-bottom: 10px; }
+.service-card p { color: #64748b; font-size: 0.95rem; }
+
+.event-card, .venue-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
+.event-image { position: relative; height: 200px; overflow: hidden; }
+.event-image img, .venue-img { width: 100%; height: 200px; object-fit: cover; }
+.event-badge { position: absolute; top: 12px; left: 12px; background: #6366f1; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+.event-body, .venue-body { padding: 20px; }
+.event-body h5, .venue-body h5 { font-weight: 600; margin-bottom: 10px; }
+.event-meta { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; color: #64748b; font-size: 0.9rem; }
+.event-meta span, .venue-meta span { display: flex; align-items: center; gap: 4px; }
+.event-meta .material-icons, .venue-meta .material-icons { font-size: 16px; }
+.event-footer { display: flex; justify-content: space-between; align-items: center; }
+.price { font-size: 1.2rem; font-weight: 700; color: #6366f1; }
+.venue-address { color: #64748b; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+.venue-address .material-icons { font-size: 16px; color: #6366f1; }
+.venue-meta { display: flex; justify-content: space-between; color: #64748b; font-size: 0.9rem; }
+.rating { color: #f59e0b; display: flex; align-items: center; gap: 2px; }
+
+.cta-section { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; padding: 80px 0; }
+.cta-section h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
+.cta-section p { opacity: 0.9; margin-bottom: 24px; font-size: 1.1rem; }
+.bg-light { background: #f8fafc; }
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.2rem; }
+  .hero-stats { gap: 20px; }
+  .stat-number { font-size: 1.5rem; }
+}

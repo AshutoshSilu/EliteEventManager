@@ -1,0 +1,43 @@
+    <div class="page-content">
+      <a routerLink="/customer/bookings" class="back-link"><span class="material-icons">arrow_back</span> Back to Bookings</a>
+      @if (booking()) {
+        <div class="detail-card mt-3">
+          <div class="detail-header">
+            <h3>{{ booking()!.bookingNumber }}</h3>
+            <span class="status-badge" [class]="'status-' + booking()!.status.toLowerCase()">{{ booking()!.status }}</span>
+          </div>
+          <div class="detail-grid">
+            <div class="info-block"><label>Customer</label><span>{{ booking()!.customerName }}</span></div>
+            <div class="info-block"><label>Email</label><span>{{ booking()!.customerEmail }}</span></div>
+            <div class="info-block"><label>Event Date</label><span>{{ booking()!.eventDate }}</span></div>
+            <div class="info-block"><label>Guests</label><span>{{ booking()!.guestCount }}</span></div>
+            <div class="info-block"><label>Event</label><span>{{ booking()!.eventTitle || 'N/A' }}</span></div>
+            <div class="info-block"><label>Venue</label><span>{{ booking()!.venueName || 'N/A' }}</span></div>
+            <div class="info-block"><label>Package</label><span>{{ booking()!.packageName || 'N/A' }}</span></div>
+            @if (booking()!.specialRequests) {
+              <div class="info-block full-width"><label>Special Requests</label><span>{{ booking()!.specialRequests }}</span></div>
+            }
+          </div>
+          <hr>
+          <h5>Pricing</h5>
+          <div class="pricing-table">
+            <div class="price-row"><span>Subtotal</span><span>{{ booking()!.subTotal | currency:'INR' }}</span></div>
+            <div class="price-row"><span>Tax</span><span>{{ booking()!.taxAmount | currency:'INR' }}</span></div>
+            <div class="price-row"><span>Discount</span><span>-{{ booking()!.discountAmount | currency:'INR' }}</span></div>
+            <div class="price-row total"><span>Total</span><span>{{ booking()!.totalAmount | currency:'INR' }}</span></div>
+          </div>
+          @if (booking()!.details?.length) {
+            <hr>
+            <h5>Services</h5>
+            <table class="table">
+              <thead><tr><th>Service</th><th>Vendor</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
+              <tbody>
+                @for (d of booking()!.details; track d.id) {
+                  <tr><td>{{ d.serviceName }}</td><td>{{ d.vendorName || '-' }}</td><td>{{ d.quantity }}</td><td>{{ d.unitPrice | currency:'INR' }}</td><td>{{ d.totalPrice | currency:'INR' }}</td></tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      }
+    </div>

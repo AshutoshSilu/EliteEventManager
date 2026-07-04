@@ -1,0 +1,25 @@
+    <app-header />
+    <section class="page-header"><div class="container"><h1>Our Packages</h1><p>Choose the perfect package for your event</p></div></section>
+    <section class="section-padding">
+      <div class="container">
+        <div class="row g-4 justify-content-center">
+          @for (pkg of packages; track pkg.name) {
+            <div class="col-lg-4 col-md-6">
+              <div class="package-card" [class.popular]="pkg.isPopular">
+                @if (pkg.isPopular) { <div class="popular-badge">Most Popular</div> }
+                <h4>{{ pkg.name }}</h4>
+                <div class="price"><span class="amount">{{ pkg.price | currency:'INR':'symbol':'1.0-0' }}</span><span class="period">/event</span></div>
+                <p class="description">{{ pkg.description }}</p>
+                <ul class="features">
+                  @for (feature of pkg.features; track feature) {
+                    <li><span class="material-icons">check_circle</span> {{ feature }}</li>
+                  }
+                </ul>
+                <a routerLink="/contact" class="btn w-100" [class]="pkg.isPopular ? 'btn-primary-custom' : 'btn-outline-custom'">Get Started</a>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+    <app-footer />

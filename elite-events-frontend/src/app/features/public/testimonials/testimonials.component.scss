@@ -1,0 +1,11 @@
+    .page-header { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; padding: 60px 0; text-align: center; }
+    .page-header h1 { font-size: 2.5rem; font-weight: 700; }
+    .testimonial-card { background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; height: 100%; }
+    .stars { margin-bottom: 12px; }
+    .stars .material-icons { font-size: 20px; color: #e2e8f0; }
+    .stars .material-icons.filled { color: #f59e0b; }
+    .quote { color: #475569; line-height: 1.7; font-style: italic; margin-bottom: 20px; }
+    .author { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: #6366f1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .author strong { display: block; font-size: 0.95rem; }
+    .author span { font-size: 0.8rem; color: #64748b; }

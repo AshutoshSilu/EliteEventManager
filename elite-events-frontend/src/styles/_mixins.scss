@@ -1,0 +1,33 @@
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm { @media (max-width: 575.98px) { @content; } }
+  @if $breakpoint == md { @media (max-width: 767.98px) { @content; } }
+  @if $breakpoint == lg { @media (max-width: 991.98px) { @content; } }
+  @if $breakpoint == xl { @media (max-width: 1199.98px) { @content; } }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-style {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-color);
+}
+
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,21 @@
+    <app-header />
+    <section class="page-header"><div class="container"><h1>Testimonials</h1><p>What our clients say about us</p></div></section>
+    <section class="section-padding">
+      <div class="container">
+        <div class="row g-4">
+          @for (t of testimonials; track t.name) {
+            <div class="col-lg-4 col-md-6">
+              <div class="testimonial-card">
+                <div class="stars">@for (s of [1,2,3,4,5]; track s) { <span class="material-icons" [class.filled]="s <= t.rating">star</span> }</div>
+                <p class="quote">"{{ t.content }}"</p>
+                <div class="author">
+                  <div class="avatar">{{ t.name.charAt(0) }}</div>
+                  <div><strong>{{ t.name }}</strong><span>{{ t.designation }}</span></div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+    <app-footer />

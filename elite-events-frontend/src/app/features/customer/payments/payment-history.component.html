@@ -1,0 +1,28 @@
+<div class="page-content">
+  <h2>Payment History</h2>
+  <div class="card">
+    <div class="card-body">
+      @if (payments().length) {
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Payment #</th><th>Booking</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+              @for (p of payments(); track p.id) {
+                <tr>
+                  <td class="fw-medium">{{ p.paymentNumber }}</td>
+                  <td>{{ p.bookingNumber }}</td>
+                  <td class="fw-bold text-primary">{{ p.amount | currency:'INR' }}</td>
+                  <td>{{ p.paymentMethod }}</td>
+                  <td>{{ p.paymentDate | date:'mediumDate' }}</td>
+                  <td><span class="status-badge" [class]="'status-' + p.status.toLowerCase()">{{ p.status }}</span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state"><span class="material-icons">payments</span><p>No payment history</p></div>
+      }
+    </div>
+  </div>
+</div>

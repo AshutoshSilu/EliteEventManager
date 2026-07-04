@@ -1,0 +1,12 @@
+h2 { font-weight: 700; margin-bottom: 24px; }
+.card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; }
+.card-body { padding: 20px; }
+.table th { font-size: 0.8rem; text-transform: uppercase; color: #64748b; }
+.text-primary { color: #6366f1 !important; }
+.status-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.status-completed { background: #d1fae5; color: #065f46; }
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-failed { background: #fee2e2; color: #991b1b; }
+.status-refunded { background: #f3e8ff; color: #6b21a8; }
+.empty-state { text-align: center; padding: 40px; color: #94a3b8; }
+.empty-state .material-icons { font-size: 48px; }

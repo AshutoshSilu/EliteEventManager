@@ -1,0 +1,79 @@
+# ============================================================
+# Elite Event Management System - Docker Compose
+# Orchestrates Backend API, Frontend, and SQL Server
+# ============================================================
+
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: elite-events-db
+    environment:
+      SA_PASSWORD: "EliteEvents@2024!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "EliteEvents@2024!" -Q "SELECT 1" -C -b
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - elite-network
+    restart: unless-stopped
+
+  # ASP.NET Core Web API
+  api:
+    build:
+      context: ./src
+      dockerfile: EliteEvents.API/Dockerfile
+    container_name: elite-events-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=EliteEventDB;User Id=sa;Password=EliteEvents@2024!;TrustServerCertificate=true;MultipleActiveResultSets=true
+      - Jwt__Key=YourSuperSecretKeyThatIsAtLeast32CharactersLong!2024
+      - Jwt__Issuer=EliteEventsAPI
+      - Jwt__Audience=EliteEventsClient
+      - App__BaseUrl=http://localhost:8080
+      - App__FrontendUrl=http://localhost:4200
+      - Cors__AllowedOrigins__0=http://localhost:4200
+      - Cors__AllowedOrigins__1=http://localhost
+    ports:
+      - "8080:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - elite-network
+    restart: unless-stopped
+    volumes:
+      - api-uploads:/app/wwwroot/uploads
+      - api-logs:/app/logs
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: ./elite-events-frontend
+      dockerfile: Dockerfile
+    container_name: elite-events-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - elite-network
+    restart: unless-stopped
+
+volumes:
+  sqlserver-data:
+  api-uploads:
+  api-logs:
+
+networks:
+  elite-network:
+    driver: bridge

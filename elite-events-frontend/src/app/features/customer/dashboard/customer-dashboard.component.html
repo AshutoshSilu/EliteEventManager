@@ -1,0 +1,82 @@
+<!-- KPI Cards -->
+<div class="row g-4 mb-4">
+  <div class="col-lg-3 col-md-6">
+    <div class="kpi-card">
+      <span class="material-icons kpi-icon bg-primary">book_online</span>
+      <div><h3>{{ recentBookings().length }}</h3><p>Total Bookings</p></div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="kpi-card">
+      <span class="material-icons kpi-icon bg-success">check_circle</span>
+      <div><h3>{{ confirmedCount() }}</h3><p>Confirmed</p></div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="kpi-card">
+      <span class="material-icons kpi-icon bg-warning">pending</span>
+      <div><h3>{{ pendingCount() }}</h3><p>Pending</p></div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="kpi-card">
+      <span class="material-icons kpi-icon bg-info">notifications_active</span>
+      <div><h3>{{ unreadCount() }}</h3><p>Notifications</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-4 mb-4">
+  <div class="col-md-4">
+    <a routerLink="/events" class="action-card">
+      <span class="material-icons">event</span>
+      <span>Browse Events</span>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a routerLink="/venues" class="action-card">
+      <span class="material-icons">location_on</span>
+      <span>Find Venues</span>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a routerLink="/customer/bookings" class="action-card">
+      <span class="material-icons">list_alt</span>
+      <span>View All Bookings</span>
+    </a>
+  </div>
+</div>
+
+<!-- Recent Bookings -->
+<div class="card">
+  <div class="card-header">
+    <h4>Recent Bookings</h4>
+    <a routerLink="/customer/bookings" class="view-all">View All</a>
+  </div>
+  <div class="card-body">
+    @if (recentBookings().length) {
+      <div class="table-responsive">
+        <table class="table">
+          <thead><tr><th>Booking #</th><th>Event</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            @for (b of recentBookings().slice(0, 5); track b.id) {
+              <tr>
+                <td><a [routerLink]="['/customer/bookings', b.id]">{{ b.bookingNumber }}</a></td>
+                <td>{{ b.eventTitle || b.venueName || 'N/A' }}</td>
+                <td>{{ b.eventDate }}</td>
+                <td>{{ b.totalAmount | currency:'INR' }}</td>
+                <td><span class="status-badge" [class]="'status-' + b.status.toLowerCase()">{{ b.status }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <span class="material-icons">event_busy</span>
+        <p>No bookings yet. <a routerLink="/events">Browse Events</a></p>
+      </div>
+    }
+  </div>
+</div>

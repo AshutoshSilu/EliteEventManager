@@ -1,0 +1,24 @@
+    <app-header />
+    <section class="page-header"><div class="container"><h1>Our Services</h1><p>Comprehensive event solutions tailored to your needs</p></div></section>
+    <section class="section-padding">
+      <div class="container">
+        <div class="row g-4">
+          @for (service of services; track service.title) {
+            <div class="col-lg-4 col-md-6">
+              <div class="service-card">
+                <span class="material-icons">{{ service.icon }}</span>
+                <h4>{{ service.title }}</h4>
+                <p>{{ service.description }}</p>
+                <ul>@for (item of service.features; track item) { <li>{{ item }}</li> }</ul>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="cta-box text-center mt-5">
+          <h3>Need a Custom Solution?</h3>
+          <p>Contact us for a personalized event plan</p>
+          <a routerLink="/contact" class="btn btn-primary-custom">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+    <app-footer />

@@ -1,0 +1,12 @@
+    .page-header { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; padding: 60px 0; text-align: center; }
+    .page-header h1 { font-size: 2.5rem; font-weight: 700; }
+    .service-card { background: white; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; height: 100%; transition: transform 0.2s; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+    .service-card .material-icons { font-size: 48px; color: #6366f1; margin-bottom: 16px; }
+    .service-card h4 { font-weight: 600; margin-bottom: 12px; }
+    .service-card p { color: #64748b; margin-bottom: 16px; }
+    .service-card ul { padding-left: 20px; color: #475569; }
+    .service-card li { margin-bottom: 6px; }
+    .cta-box { background: #f8fafc; border-radius: 12px; padding: 40px; }
+    .cta-box h3 { font-weight: 700; }
+    .cta-box p { color: #64748b; margin-bottom: 16px; }

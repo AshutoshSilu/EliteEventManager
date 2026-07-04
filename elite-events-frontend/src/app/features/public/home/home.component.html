@@ -1,0 +1,117 @@
+<app-header />
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <h1 class="hero-title">Creating Unforgettable<br><span>Moments & Memories</span></h1>
+    <p class="hero-subtitle">Premium event management for weddings, corporate events, and celebrations. Let us bring your vision to life.</p>
+    <div class="hero-actions">
+      <a routerLink="/events" class="btn btn-primary-custom btn-lg">Explore Events</a>
+      <a routerLink="/contact" class="btn btn-outline-light btn-lg">Get a Quote</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Events Managed</span></div>
+      <div class="stat-item"><span class="stat-number">200+</span><span class="stat-label">Happy Clients</span></div>
+      <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Expert Vendors</span></div>
+      <div class="stat-item"><span class="stat-number">15+</span><span class="stat-label">Premium Venues</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="section-padding bg-light">
+  <div class="container text-center">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-subtitle">Comprehensive event planning from start to finish</p>
+    <div class="row g-4">
+      @for (service of services; track service.title) {
+        <div class="col-lg-4 col-md-6">
+          <div class="service-card card-hover">
+            <span class="material-icons service-icon">{{ service.icon }}</span>
+            <h4>{{ service.title }}</h4>
+            <p>{{ service.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Featured Events -->
+<section class="section-padding">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="section-title mb-1">Featured Events</h2>
+        <p class="text-muted">Discover our upcoming curated events</p>
+      </div>
+      <a routerLink="/events" class="btn btn-outline-custom">View All</a>
+    </div>
+    <div class="row g-4">
+      @for (event of featuredEvents(); track event.id) {
+        <div class="col-lg-4 col-md-6">
+          <div class="event-card card-hover">
+            <div class="event-image">
+              <img [src]="event.coverImageUrl || 'assets/images/event-placeholder.jpg'" [alt]="event.title">
+              <span class="event-badge">{{ event.categoryName }}</span>
+            </div>
+            <div class="event-body">
+              <h5>{{ event.title }}</h5>
+              <div class="event-meta">
+                <span><i class="material-icons">calendar_today</i> {{ event.startDate | date:'mediumDate' }}</span>
+                <span><i class="material-icons">location_on</i> {{ event.venueName || 'TBA' }}</span>
+              </div>
+              <div class="event-footer">
+                <span class="price">{{ event.discountPrice || event.price | currency:'INR' }}</span>
+                <a [routerLink]="['/events', event.id]" class="btn btn-sm btn-primary-custom">View Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Featured Venues -->
+<section class="section-padding bg-light">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="section-title mb-1">Premium Venues</h2>
+        <p class="text-muted">Stunning locations for your special occasions</p>
+      </div>
+      <a routerLink="/venues" class="btn btn-outline-custom">View All</a>
+    </div>
+    <div class="row g-4">
+      @for (venue of featuredVenues(); track venue.id) {
+        <div class="col-lg-4 col-md-6">
+          <div class="venue-card card-hover">
+            <img [src]="venue.coverImageUrl || 'assets/images/venue-placeholder.jpg'" [alt]="venue.name" class="venue-img">
+            <div class="venue-body">
+              <h5>{{ venue.name }}</h5>
+              <p class="venue-address"><i class="material-icons">location_on</i> {{ venue.address }}</p>
+              <div class="venue-meta">
+                <span><i class="material-icons">people</i> Up to {{ venue.capacity }}</span>
+                <span class="rating"><i class="material-icons">star</i> {{ venue.rating }}</span>
+              </div>
+              <a [routerLink]="['/venues', venue.id]" class="btn btn-outline-custom btn-sm w-100 mt-2">View Details</a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container text-center">
+    <h2>Ready to Plan Your Dream Event?</h2>
+    <p>Let our experts help you create an unforgettable experience</p>
+    <a routerLink="/contact" class="btn btn-light btn-lg">Contact Us Today</a>
+  </div>
+</section>
+
+<app-footer />

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+elite-events-frontend/node_modules/
+
+# Build outputs
+elite-events-frontend/dist/
+elite-events-frontend/.angular/
+src/**/bin/
+src/**/obj/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Environment files
+.env
+*.local
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Packages
+*.nupkg
