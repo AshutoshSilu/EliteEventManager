@@ -4,7 +4,12 @@
         <div class="detail-card mt-3">
           <div class="detail-header">
             <h3>{{ booking()!.bookingNumber }}</h3>
-            <span class="status-badge" [class]="'status-' + booking()!.status.toLowerCase()">{{ booking()!.status }}</span>
+            <div class="header-actions">
+              <span class="status-badge" [class]="'status-' + booking()!.status.toLowerCase()">{{ booking()!.status }}</span>
+              <button class="btn-download-invoice" (click)="downloadInvoice()">
+                <span class="material-icons">download</span> Download Invoice
+              </button>
+            </div>
           </div>
           <div class="detail-grid">
             <div class="info-block"><label>Customer</label><span>{{ booking()!.customerName }}</span></div>

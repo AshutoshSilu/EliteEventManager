@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 
 /**
  * Prevents authenticated users from accessing login/register pages.
+ * Redirects to the user's role-appropriate dashboard.
  */
 export const noAuthGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -13,12 +14,8 @@ export const noAuthGuard: CanActivateFn = () => {
     return true;
   }
 
-  // Redirect based on role
-  const role = authService.userRole();
-  if (role === 'Administrator' || role === 'EventManager') {
-    router.navigate(['/admin']);
-  } else {
-    router.navigate(['/customer']);
-  }
+  // Redirect authenticated user to their default dashboard
+  const dashboard = authService.getDefaultDashboard();
+  router.navigate([dashboard]);
   return false;
 };

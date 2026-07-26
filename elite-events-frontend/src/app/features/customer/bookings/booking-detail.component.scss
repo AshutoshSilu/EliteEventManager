@@ -14,3 +14,22 @@
     .price-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.9rem; color: #475569; }
     .price-row.total { font-weight: 700; color: #6366f1; font-size: 1.1rem; border-top: 1px solid #e2e8f0; padding-top: 12px; }
     .table th { font-size: 0.8rem; text-transform: uppercase; color: #64748b; }
+
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-download-invoice {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      .material-icons { font-size: 18px; }
+      &:hover { background: #4f46e5; }
+      &:active { background: #4338ca; }
+    }

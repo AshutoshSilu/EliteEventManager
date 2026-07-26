@@ -22,6 +22,10 @@ export const CUSTOMER_ROUTES: Routes = [
         loadComponent: () => import('./bookings/booking-detail.component').then(m => m.BookingDetailComponent)
       },
       {
+        path: 'book-event/:eventId',
+        loadComponent: () => import('./bookings/book-event/book-event.component').then(m => m.BookEventComponent)
+      },
+      {
         path: 'payments',
         loadComponent: () => import('./payments/payment-history.component').then(m => m.PaymentHistoryComponent)
       },

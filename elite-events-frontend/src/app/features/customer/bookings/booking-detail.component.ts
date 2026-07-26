@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookingService } from '@core/services/booking.service';
+import { InvoiceService } from '@core/services/invoice.service';
 import { Booking } from '@core/models/booking.model';
 
 @Component({
@@ -14,6 +15,7 @@ import { Booking } from '@core/models/booking.model';
 export class BookingDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private bookingService = inject(BookingService);
+  private invoiceService = inject(InvoiceService);
   booking = signal<Booking | null>(null);
 
   ngOnInit(): void {
@@ -21,5 +23,12 @@ export class BookingDetailComponent implements OnInit {
     this.bookingService.getById(id).subscribe(res => {
       if (res.success && res.data) this.booking.set(res.data);
     });
+  }
+
+  downloadInvoice(): void {
+    const booking = this.booking();
+    if (booking) {
+      this.invoiceService.generateInvoice(booking);
+    }
   }
 }

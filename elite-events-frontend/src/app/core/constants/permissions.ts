@@ -1,0 +1,396 @@
+/**
+ * Granular permission definitions for the RBAC system.
+ * Format: module.action
+ */
+export const PERMISSIONS = {
+  // User Management
+  USERS_VIEW: 'users.view',
+  USERS_CREATE: 'users.create',
+  USERS_EDIT: 'users.edit',
+  USERS_DELETE: 'users.delete',
+
+  // Role Management
+  ROLES_MANAGE: 'roles.manage',
+
+  // Event Management
+  EVENTS_VIEW: 'events.view',
+  EVENTS_CREATE: 'events.create',
+  EVENTS_EDIT: 'events.edit',
+  EVENTS_DELETE: 'events.delete',
+  EVENTS_PUBLISH: 'events.publish',
+  EVENTS_ARCHIVE: 'events.archive',
+  EVENTS_ASSIGN: 'events.assign',
+
+  // Event Schedule
+  SCHEDULES_VIEW: 'schedules.view',
+  SCHEDULES_MANAGE: 'schedules.manage',
+
+  // Registrations
+  REGISTRATIONS_VIEW: 'registrations.view',
+  REGISTRATIONS_MANAGE: 'registrations.manage',
+  REGISTRATIONS_CHECKIN: 'registrations.checkin',
+
+  // Tickets
+  TICKETS_VIEW: 'tickets.view',
+  TICKETS_PURCHASE: 'tickets.purchase',
+  TICKETS_MANAGE: 'tickets.manage',
+
+  // Vendor Management
+  VENDORS_VIEW: 'vendors.view',
+  VENDORS_MANAGE: 'vendors.manage',
+  VENDORS_APPROVE: 'vendors.approve',
+  VENDORS_PROFILE_EDIT: 'vendors.profile.edit',
+  VENDORS_BOOKINGS_MANAGE: 'vendors.bookings.manage',
+  VENDORS_PRODUCTS_MANAGE: 'vendors.products.manage',
+  VENDORS_INVOICES_UPLOAD: 'vendors.invoices.upload',
+
+  // Staff Management
+  STAFF_VIEW: 'staff.view',
+  STAFF_MANAGE: 'staff.manage',
+  STAFF_TASKS_VIEW: 'staff.tasks.view',
+  STAFF_TASKS_UPDATE: 'staff.tasks.update',
+  STAFF_ISSUES_REPORT: 'staff.issues.report',
+
+  // Volunteer Management
+  VOLUNTEERS_VIEW: 'volunteers.view',
+  VOLUNTEERS_MANAGE: 'volunteers.manage',
+  VOLUNTEERS_ASSIGN: 'volunteers.assign',
+  VOLUNTEERS_AVAILABILITY_UPDATE: 'volunteers.availability.update',
+  VOLUNTEERS_TASKS_COMPLETE: 'volunteers.tasks.complete',
+  VOLUNTEERS_SHIFTS_VIEW: 'volunteers.shifts.view',
+
+  // Client Management
+  CLIENTS_VIEW: 'clients.view',
+  CLIENTS_MANAGE: 'clients.manage',
+  CLIENTS_REQUESTS_CREATE: 'clients.requests.create',
+  CLIENTS_PROGRESS_VIEW: 'clients.progress.view',
+  CLIENTS_QUOTATIONS_APPROVE: 'clients.quotations.approve',
+  CLIENTS_COMMUNICATION: 'clients.communication',
+
+  // Venue Management
+  VENUES_VIEW: 'venues.view',
+  VENUES_MANAGE: 'venues.manage',
+
+  // Budget Management
+  BUDGETS_VIEW: 'budgets.view',
+  BUDGETS_MANAGE: 'budgets.manage',
+
+  // Payments
+  PAYMENTS_VIEW: 'payments.view',
+  PAYMENTS_MANAGE: 'payments.manage',
+  PAYMENTS_PROCESS: 'payments.process',
+
+  // Invoices
+  INVOICES_VIEW: 'invoices.view',
+  INVOICES_MANAGE: 'invoices.manage',
+  INVOICES_DOWNLOAD: 'invoices.download',
+
+  // Reports
+  REPORTS_VIEW: 'reports.view',
+  REPORTS_EXPORT: 'reports.export',
+
+  // Analytics
+  ANALYTICS_VIEW: 'analytics.view',
+  ANALYTICS_EXPORT: 'analytics.export',
+
+  // Notifications
+  NOTIFICATIONS_VIEW: 'notifications.view',
+  NOTIFICATIONS_MANAGE: 'notifications.manage',
+
+  // Settings
+  SETTINGS_VIEW: 'settings.view',
+  SETTINGS_MANAGE: 'settings.manage',
+
+  // Dashboard
+  DASHBOARD_VIEW: 'dashboard.view',
+  DASHBOARD_ADMIN: 'dashboard.admin',
+
+  // Gallery
+  GALLERY_VIEW: 'gallery.view',
+  GALLERY_MANAGE: 'gallery.manage',
+
+  // Coupons
+  COUPONS_VIEW: 'coupons.view',
+  COUPONS_MANAGE: 'coupons.manage',
+
+  // Reviews
+  REVIEWS_VIEW: 'reviews.view',
+  REVIEWS_CREATE: 'reviews.create',
+  REVIEWS_MANAGE: 'reviews.manage',
+
+  // Profile
+  PROFILE_VIEW: 'profile.view',
+  PROFILE_EDIT: 'profile.edit',
+
+  // Public Access
+  PUBLIC_EVENTS_BROWSE: 'public.events.browse',
+  PUBLIC_EVENTS_DETAIL: 'public.events.detail',
+  PUBLIC_REGISTER: 'public.register',
+} as const;
+
+export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
+
+/**
+ * All available roles in the system.
+ */
+export const ROLES = {
+  SUPER_ADMIN: 'SuperAdmin',
+  ADMIN: 'Admin',
+  EVENT_MANAGER: 'EventManager',
+  EVENT_COORDINATOR: 'EventCoordinator',
+  VENDOR: 'Vendor',
+  STAFF: 'Staff',
+  VOLUNTEER: 'Volunteer',
+  CLIENT: 'Client',
+  ATTENDEE: 'Attendee',
+  GUEST: 'Guest',
+} as const;
+
+export type Role = (typeof ROLES)[keyof typeof ROLES];
+
+/**
+ * Maps each role to its granted permissions.
+ * Follows the Principle of Least Privilege.
+ */
+export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
+  // Super Admin - full access to every module
+  [ROLES.SUPER_ADMIN]: Object.values(PERMISSIONS),
+
+  // Admin - manage events, users (except SuperAdmin), vendors, categories, venues, reports, dashboards
+  [ROLES.ADMIN]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.DASHBOARD_ADMIN,
+    PERMISSIONS.USERS_VIEW,
+    PERMISSIONS.USERS_CREATE,
+    PERMISSIONS.USERS_EDIT,
+    PERMISSIONS.USERS_DELETE,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.EVENTS_CREATE,
+    PERMISSIONS.EVENTS_EDIT,
+    PERMISSIONS.EVENTS_DELETE,
+    PERMISSIONS.EVENTS_PUBLISH,
+    PERMISSIONS.EVENTS_ARCHIVE,
+    PERMISSIONS.EVENTS_ASSIGN,
+    PERMISSIONS.SCHEDULES_VIEW,
+    PERMISSIONS.SCHEDULES_MANAGE,
+    PERMISSIONS.REGISTRATIONS_VIEW,
+    PERMISSIONS.REGISTRATIONS_MANAGE,
+    PERMISSIONS.REGISTRATIONS_CHECKIN,
+    PERMISSIONS.TICKETS_VIEW,
+    PERMISSIONS.TICKETS_MANAGE,
+    PERMISSIONS.VENDORS_VIEW,
+    PERMISSIONS.VENDORS_MANAGE,
+    PERMISSIONS.VENDORS_APPROVE,
+    PERMISSIONS.STAFF_VIEW,
+    PERMISSIONS.STAFF_MANAGE,
+    PERMISSIONS.VOLUNTEERS_VIEW,
+    PERMISSIONS.VOLUNTEERS_MANAGE,
+    PERMISSIONS.VOLUNTEERS_ASSIGN,
+    PERMISSIONS.CLIENTS_VIEW,
+    PERMISSIONS.CLIENTS_MANAGE,
+    PERMISSIONS.VENUES_VIEW,
+    PERMISSIONS.VENUES_MANAGE,
+    PERMISSIONS.BUDGETS_VIEW,
+    PERMISSIONS.BUDGETS_MANAGE,
+    PERMISSIONS.PAYMENTS_VIEW,
+    PERMISSIONS.PAYMENTS_MANAGE,
+    PERMISSIONS.PAYMENTS_PROCESS,
+    PERMISSIONS.INVOICES_VIEW,
+    PERMISSIONS.INVOICES_MANAGE,
+    PERMISSIONS.INVOICES_DOWNLOAD,
+    PERMISSIONS.REPORTS_VIEW,
+    PERMISSIONS.REPORTS_EXPORT,
+    PERMISSIONS.ANALYTICS_VIEW,
+    PERMISSIONS.ANALYTICS_EXPORT,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.NOTIFICATIONS_MANAGE,
+    PERMISSIONS.SETTINGS_VIEW,
+    PERMISSIONS.SETTINGS_MANAGE,
+    PERMISSIONS.GALLERY_VIEW,
+    PERMISSIONS.GALLERY_MANAGE,
+    PERMISSIONS.COUPONS_VIEW,
+    PERMISSIONS.COUPONS_MANAGE,
+    PERMISSIONS.REVIEWS_VIEW,
+    PERMISSIONS.REVIEWS_MANAGE,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Event Manager - manage assigned events, schedules, budgets, staff, volunteers, vendors for events
+  [ROLES.EVENT_MANAGER]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.DASHBOARD_ADMIN,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.EVENTS_CREATE,
+    PERMISSIONS.EVENTS_EDIT,
+    PERMISSIONS.EVENTS_DELETE,
+    PERMISSIONS.EVENTS_PUBLISH,
+    PERMISSIONS.EVENTS_ARCHIVE,
+    PERMISSIONS.EVENTS_ASSIGN,
+    PERMISSIONS.SCHEDULES_VIEW,
+    PERMISSIONS.SCHEDULES_MANAGE,
+    PERMISSIONS.REGISTRATIONS_VIEW,
+    PERMISSIONS.REGISTRATIONS_MANAGE,
+    PERMISSIONS.TICKETS_VIEW,
+    PERMISSIONS.TICKETS_MANAGE,
+    PERMISSIONS.VENDORS_VIEW,
+    PERMISSIONS.VENDORS_MANAGE,
+    PERMISSIONS.STAFF_VIEW,
+    PERMISSIONS.STAFF_MANAGE,
+    PERMISSIONS.VOLUNTEERS_VIEW,
+    PERMISSIONS.VOLUNTEERS_MANAGE,
+    PERMISSIONS.VOLUNTEERS_ASSIGN,
+    PERMISSIONS.CLIENTS_VIEW,
+    PERMISSIONS.BUDGETS_VIEW,
+    PERMISSIONS.BUDGETS_MANAGE,
+    PERMISSIONS.PAYMENTS_VIEW,
+    PERMISSIONS.INVOICES_VIEW,
+    PERMISSIONS.INVOICES_MANAGE,
+    PERMISSIONS.INVOICES_DOWNLOAD,
+    PERMISSIONS.ANALYTICS_VIEW,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.GALLERY_VIEW,
+    PERMISSIONS.GALLERY_MANAGE,
+    PERMISSIONS.REVIEWS_VIEW,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+    PERMISSIONS.CLIENTS_COMMUNICATION,
+  ],
+
+  // Event Coordinator - manage registrations, check-in attendees, assign volunteers, logistics, schedules
+  [ROLES.EVENT_COORDINATOR]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.SCHEDULES_VIEW,
+    PERMISSIONS.SCHEDULES_MANAGE,
+    PERMISSIONS.REGISTRATIONS_VIEW,
+    PERMISSIONS.REGISTRATIONS_MANAGE,
+    PERMISSIONS.REGISTRATIONS_CHECKIN,
+    PERMISSIONS.TICKETS_VIEW,
+    PERMISSIONS.VOLUNTEERS_VIEW,
+    PERMISSIONS.VOLUNTEERS_ASSIGN,
+    PERMISSIONS.STAFF_VIEW,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Vendor - view assigned events, profile, products, bookings, invoices, payment status
+  [ROLES.VENDOR]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.VENDORS_PROFILE_EDIT,
+    PERMISSIONS.VENDORS_PRODUCTS_MANAGE,
+    PERMISSIONS.VENDORS_BOOKINGS_MANAGE,
+    PERMISSIONS.VENDORS_INVOICES_UPLOAD,
+    PERMISSIONS.PAYMENTS_VIEW,
+    PERMISSIONS.INVOICES_VIEW,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Staff - view tasks, update status, check-in attendees, access schedule, report issues
+  [ROLES.STAFF]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.SCHEDULES_VIEW,
+    PERMISSIONS.REGISTRATIONS_CHECKIN,
+    PERMISSIONS.STAFF_TASKS_VIEW,
+    PERMISSIONS.STAFF_TASKS_UPDATE,
+    PERMISSIONS.STAFF_ISSUES_REPORT,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Volunteer - view shifts, update availability, complete tasks
+  [ROLES.VOLUNTEER]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.SCHEDULES_VIEW,
+    PERMISSIONS.VOLUNTEERS_SHIFTS_VIEW,
+    PERMISSIONS.VOLUNTEERS_AVAILABILITY_UPDATE,
+    PERMISSIONS.VOLUNTEERS_TASKS_COMPLETE,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Client / Organizer - create event requests, view progress, approve quotations, invoices, communication
+  [ROLES.CLIENT]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.CLIENTS_REQUESTS_CREATE,
+    PERMISSIONS.CLIENTS_PROGRESS_VIEW,
+    PERMISSIONS.CLIENTS_QUOTATIONS_APPROVE,
+    PERMISSIONS.CLIENTS_COMMUNICATION,
+    PERMISSIONS.PAYMENTS_VIEW,
+    PERMISSIONS.INVOICES_VIEW,
+    PERMISSIONS.INVOICES_DOWNLOAD,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.REVIEWS_VIEW,
+    PERMISSIONS.REVIEWS_CREATE,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Attendee - browse events, register, purchase tickets, view tickets, download invoices, profile
+  [ROLES.ATTENDEE]: [
+    PERMISSIONS.DASHBOARD_VIEW,
+    PERMISSIONS.PUBLIC_EVENTS_BROWSE,
+    PERMISSIONS.PUBLIC_EVENTS_DETAIL,
+    PERMISSIONS.EVENTS_VIEW,
+    PERMISSIONS.REGISTRATIONS_VIEW,
+    PERMISSIONS.TICKETS_VIEW,
+    PERMISSIONS.TICKETS_PURCHASE,
+    PERMISSIONS.PAYMENTS_VIEW,
+    PERMISSIONS.INVOICES_VIEW,
+    PERMISSIONS.INVOICES_DOWNLOAD,
+    PERMISSIONS.NOTIFICATIONS_VIEW,
+    PERMISSIONS.REVIEWS_VIEW,
+    PERMISSIONS.REVIEWS_CREATE,
+    PERMISSIONS.PROFILE_VIEW,
+    PERMISSIONS.PROFILE_EDIT,
+  ],
+
+  // Guest - browse public events, view details, register/login
+  [ROLES.GUEST]: [
+    PERMISSIONS.PUBLIC_EVENTS_BROWSE,
+    PERMISSIONS.PUBLIC_EVENTS_DETAIL,
+    PERMISSIONS.PUBLIC_REGISTER,
+  ],
+};
+
+/**
+ * Hierarchy defines role precedence (higher index = more privileges).
+ * Used for determining default redirect paths.
+ */
+export const ROLE_HIERARCHY: Role[] = [
+  ROLES.GUEST,
+  ROLES.ATTENDEE,
+  ROLES.VOLUNTEER,
+  ROLES.STAFF,
+  ROLES.CLIENT,
+  ROLES.VENDOR,
+  ROLES.EVENT_COORDINATOR,
+  ROLES.EVENT_MANAGER,
+  ROLES.ADMIN,
+  ROLES.SUPER_ADMIN,
+];
+
+/**
+ * Default dashboard route for each role after login.
+ */
+export const ROLE_DASHBOARD_ROUTES: Record<Role, string> = {
+  [ROLES.SUPER_ADMIN]: '/admin',
+  [ROLES.ADMIN]: '/admin',
+  [ROLES.EVENT_MANAGER]: '/admin',
+  [ROLES.EVENT_COORDINATOR]: '/coordinator',
+  [ROLES.VENDOR]: '/vendor',
+  [ROLES.STAFF]: '/staff',
+  [ROLES.VOLUNTEER]: '/volunteer',
+  [ROLES.CLIENT]: '/client',
+  [ROLES.ATTENDEE]: '/customer',
+  [ROLES.GUEST]: '/',
+};

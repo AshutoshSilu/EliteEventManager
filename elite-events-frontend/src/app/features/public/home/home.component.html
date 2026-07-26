@@ -1,9 +1,16 @@
 <app-header />
 
-<!-- Hero Section -->
+<!-- Hero Section with Background Slideshow -->
 <section class="hero-section">
+  <div class="hero-slideshow">
+    @for (slide of heroSlides; track slide.url; let i = $index) {
+      <div class="slide" [class.active]="currentSlide === i"
+           [style.background-image]="'url(' + slide.url + ')'"></div>
+    }
+  </div>
   <div class="hero-overlay"></div>
   <div class="container hero-content">
+    <span class="hero-tag">Welcome to Elite Events</span>
     <h1 class="hero-title">Creating Unforgettable<br><span>Moments & Memories</span></h1>
     <p class="hero-subtitle">Premium event management for weddings, corporate events, and celebrations. Let us bring your vision to life.</p>
     <div class="hero-actions">
@@ -11,10 +18,28 @@
       <a routerLink="/contact" class="btn btn-outline-light btn-lg">Get a Quote</a>
     </div>
     <div class="hero-stats">
-      <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Events Managed</span></div>
-      <div class="stat-item"><span class="stat-number">200+</span><span class="stat-label">Happy Clients</span></div>
-      <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Expert Vendors</span></div>
-      <div class="stat-item"><span class="stat-number">15+</span><span class="stat-label">Premium Venues</span></div>
+      <div class="stat-item">
+        <span class="stat-number">500+</span>
+        <span class="stat-label">Events Managed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">200+</span>
+        <span class="stat-label">Happy Clients</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Expert Vendors</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">15+</span>
+        <span class="stat-label">Premium Venues</span>
+      </div>
+    </div>
+    <!-- Slide indicators -->
+    <div class="slide-indicators">
+      @for (slide of heroSlides; track slide.url; let i = $index) {
+        <button class="indicator" [class.active]="currentSlide === i" (click)="goToSlide(i)"></button>
+      }
     </div>
   </div>
 </section>

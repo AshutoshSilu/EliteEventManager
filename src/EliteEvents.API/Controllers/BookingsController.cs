@@ -60,8 +60,11 @@ public class BookingsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] BookingCreateDto dto)
     {
-        // In production, resolve customerId from the authenticated user
-        var customerId = 1; // Placeholder
+        var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var customerId = await _bookingService.GetCustomerIdByUserIdAsync(userId);
+        if (customerId == 0)
+            return BadRequest(new { success = false, message = "Customer profile not found." });
+
         var result = await _bookingService.CreateAsync(dto, customerId);
         return result.Success
             ? CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result)
@@ -74,6 +77,17 @@ public class BookingsController : ControllerBase
     [Authorize(Policy = "ManagerOrAdmin")]
     [HttpPatch("{id:int}/status")]
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] BookingStatusUpdateDto dto)
+    {
+        var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _bookingService.UpdateStatusAsync(id, dto, userId);
+        return result.Success ? Ok(result) : BadRequest(result);
+    }
+
+    /// <summary>
+    /// Approve or Deny a booking (Customer accessible).
+    /// </summary>
+    [HttpPatch("{id:int}/customer-action")]
+    public async Task<IActionResult> CustomerAction(int id, [FromBody] BookingStatusUpdateDto dto)
     {
         var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _bookingService.UpdateStatusAsync(id, dto, userId);
@@ -97,7 +111,8 @@ public class BookingsController : ControllerBase
     [HttpGet("my-bookings")]
     public async Task<IActionResult> GetMyBookings()
     {
-        var customerId = 1; // Placeholder - resolve from user
+        var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var customerId = await _bookingService.GetCustomerIdByUserIdAsync(userId);
         var result = await _bookingService.GetCustomerBookingsAsync(customerId);
         return Ok(result);
     }

@@ -15,3 +15,128 @@
 .price-section { margin-top: 20px; text-align: center; }
 .old-price { text-decoration: line-through; color: #94a3b8; font-size: 1rem; display: block; }
 .current-price { font-size: 2rem; font-weight: 700; color: #6366f1; }
+
+/* Booking Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid #f1f5f9;
+
+  h3 { font-weight: 700; margin: 0; color: #1e293b; }
+}
+
+.close-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: none; background: #f1f5f9; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #64748b; transition: all 0.2s;
+
+  &:hover { background: #e2e8f0; color: #1e293b; }
+}
+
+.modal-body {
+  padding: 24px 28px 28px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+
+  label {
+    display: block; font-weight: 500; margin-bottom: 6px;
+    color: #374151; font-size: 0.9rem;
+  }
+
+  .required { color: #ef4444; }
+}
+
+.form-control {
+  width: 100%;
+  padding: 11px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  &.is-invalid { border-color: #ef4444; }
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+textarea.form-control { resize: vertical; }
+
+.invalid-feedback { color: #ef4444; font-size: 0.8rem; margin-top: 4px; display: block; }
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.btn-outline-secondary {
+  border: 1.5px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover { background: #f8fafc; border-color: #cbd5e1; }
+}
+
+.btn-primary-custom {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

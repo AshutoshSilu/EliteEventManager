@@ -1,3 +1,5 @@
+import { Permission, Role } from '../constants/permissions';
+
 export interface User {
   id: string;
   firstName: string;
@@ -8,6 +10,8 @@ export interface User {
   profileImageUrl?: string;
   roleId: number;
   roleName: string;
+  roles: Role[];
+  permissions: Permission[];
   isActive: boolean;
   isEmailVerified: boolean;
   lastLoginAt?: Date;
@@ -23,7 +27,9 @@ export interface LoginResponse {
   userId: string;
   email: string;
   fullName: string;
-  role: string;
+  role: Role;
+  roles: Role[];
+  permissions: Permission[];
   token: string;
   refreshToken: string;
   tokenExpiry: Date;
@@ -43,6 +49,8 @@ export interface AuthUser {
   userId: string;
   email: string;
   fullName: string;
-  role: string;
+  role: Role;
+  roles: Role[];
+  permissions: Permission[];
   profileImageUrl?: string;
 }

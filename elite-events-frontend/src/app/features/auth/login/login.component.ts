@@ -57,8 +57,6 @@ export class LoginComponent {
   }
 
   private getDefaultRoute(): string {
-    const role = this.authService.userRole();
-    if (role === 'Administrator' || role === 'EventManager') return '/admin';
-    return '/customer';
+    return this.authService.getDefaultDashboard();
   }
 }

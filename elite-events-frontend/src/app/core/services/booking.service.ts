@@ -37,7 +37,7 @@ export class BookingService {
   }
 
   updateStatus(id: number, status: string, notes?: string, cancelReason?: string): Observable<ApiResponse<Booking>> {
-    return this.http.patch<ApiResponse<Booking>>(API_ENDPOINTS.bookings.status(id), { status, notes, cancelReason });
+    return this.http.patch<ApiResponse<Booking>>(`${API_ENDPOINTS.bookings.base}/${id}/customer-action`, { status, notes, cancelReason });
   }
 
   cancel(id: number, reason: string): Observable<ApiResponse<any>> {

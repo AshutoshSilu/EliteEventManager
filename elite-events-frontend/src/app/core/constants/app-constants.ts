@@ -5,11 +5,16 @@ export const APP_CONSTANTS = {
   themeKey: 'elite_events_theme',
 
   roles: {
-    admin: 'Administrator',
-    manager: 'EventManager',
-    customer: 'Customer',
+    superAdmin: 'SuperAdmin',
+    admin: 'Admin',
+    eventManager: 'EventManager',
+    eventCoordinator: 'EventCoordinator',
     vendor: 'Vendor',
-    visitor: 'Visitor'
+    staff: 'Staff',
+    volunteer: 'Volunteer',
+    client: 'Client',
+    attendee: 'Attendee',
+    guest: 'Guest'
   },
 
   bookingStatuses: ['Pending', 'Confirmed', 'InProgress', 'Completed', 'Cancelled', 'Refunded'],

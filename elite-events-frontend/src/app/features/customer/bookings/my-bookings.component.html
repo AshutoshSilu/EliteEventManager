@@ -15,34 +15,87 @@
   </div>
 
   @for (booking of filteredBookings(); track booking.id) {
-    <div class="booking-card">
+    <div class="booking-card" [class.booking-pending]="booking.status === 'Pending'"
+         [class.booking-confirmed]="booking.status === 'Confirmed'"
+         [class.booking-cancelled]="booking.status === 'Cancelled'">
       <div class="booking-header">
-        <span class="booking-number">{{ booking.bookingNumber }}</span>
+        <div class="booking-header-left">
+          <span class="booking-number">{{ booking.bookingNumber }}</span>
+          <span class="booking-date-created">Booked on {{ booking.createdAt | date:'mediumDate' }}</span>
+        </div>
         <span class="status-badge" [class]="'status-' + booking.status.toLowerCase()">{{ booking.status }}</span>
       </div>
+
       <div class="booking-body">
-        <div class="booking-detail">
-          <span class="label">Event/Venue</span>
-          <span class="value">{{ booking.eventTitle || booking.venueName || 'N/A' }}</span>
-        </div>
-        <div class="booking-detail">
-          <span class="label">Date</span>
-          <span class="value">{{ booking.eventDate }}</span>
-        </div>
-        <div class="booking-detail">
-          <span class="label">Guests</span>
-          <span class="value">{{ booking.guestCount }}</span>
-        </div>
-        <div class="booking-detail">
-          <span class="label">Amount</span>
-          <span class="value price">{{ booking.totalAmount | currency:'INR' }}</span>
+        <div class="booking-info-grid">
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">event</span>
+            <div>
+              <span class="label">Event</span>
+              <span class="value">{{ booking.eventTitle || booking.venueName || 'N/A' }}</span>
+            </div>
+          </div>
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">person</span>
+            <div>
+              <span class="label">Client Name</span>
+              <span class="value">{{ getClientField(booking, 'Client') || booking.customerName }}</span>
+            </div>
+          </div>
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">email</span>
+            <div>
+              <span class="label">Client Email</span>
+              <span class="value">{{ getClientField(booking, 'Email') || booking.customerEmail || 'N/A' }}</span>
+            </div>
+          </div>
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">phone</span>
+            <div>
+              <span class="label">Mobile</span>
+              <span class="value">{{ getClientField(booking, 'Mobile') || 'N/A' }}</span>
+            </div>
+          </div>
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">calendar_today</span>
+            <div>
+              <span class="label">Event Date</span>
+              <span class="value">{{ booking.eventDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">category</span>
+            <div>
+              <span class="label">Event Type</span>
+              <span class="value">{{ getClientField(booking, 'Event Type') || 'N/A' }}</span>
+            </div>
+          </div>
+          <div class="booking-detail">
+            <span class="material-icons detail-icon">currency_rupee</span>
+            <div>
+              <span class="label">Amount</span>
+              <span class="value price">{{ booking.totalAmount | currency:'INR' }}</span>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="booking-actions">
-        <a [routerLink]="['/customer/bookings', booking.id]" class="btn btn-outline-custom btn-sm">View Details</a>
         @if (booking.status === 'Pending') {
-          <button class="btn btn-sm btn-outline-danger" (click)="cancelBooking(booking)">Cancel</button>
+          <button class="btn btn-approve btn-sm" (click)="approveBooking(booking)">
+            <span class="material-icons">check_circle</span> Approve
+          </button>
+          <button class="btn btn-deny btn-sm" (click)="denyBooking(booking)">
+            <span class="material-icons">cancel</span> Deny
+          </button>
         }
+        @if (booking.status === 'Confirmed') {
+          <span class="confirmed-msg"><span class="material-icons">verified</span> Approved - Confirmation sent</span>
+        }
+        @if (booking.status === 'Cancelled') {
+          <span class="denied-msg"><span class="material-icons">block</span> Denied</span>
+        }
+        <a [routerLink]="['/customer/bookings', booking.id]" class="btn btn-outline-custom btn-sm ms-auto">View Details</a>
       </div>
     </div>
   } @empty {

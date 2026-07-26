@@ -1,12 +1,14 @@
 using EliteEvents.Application.Services.Interfaces;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MimeKit;
 
 namespace EliteEvents.Infrastructure.Services;
 
 /// <summary>
-/// Email service implementation using SMTP.
-/// In production, consider using SendGrid, AWS SES, or similar.
+/// Email service implementation using MailKit SMTP.
 /// </summary>
 public class EmailService : IEmailService
 {
@@ -21,7 +23,7 @@ public class EmailService : IEmailService
 
     public async Task SendEmailVerificationAsync(string email, string token)
     {
-        var baseUrl = _configuration["App:BaseUrl"];
+        var baseUrl = _configuration["App:FrontendUrl"] ?? "http://localhost:4200";
         var verifyUrl = $"{baseUrl}/auth/verify-email?token={token}";
 
         var subject = "Verify Your Email - Elite Events";
@@ -38,7 +40,7 @@ public class EmailService : IEmailService
 
     public async Task SendPasswordResetAsync(string email, string token)
     {
-        var baseUrl = _configuration["App:BaseUrl"];
+        var baseUrl = _configuration["App:FrontendUrl"] ?? "http://localhost:4200";
         var resetUrl = $"{baseUrl}/auth/reset-password?token={token}";
 
         var subject = "Reset Password - Elite Events";
@@ -55,7 +57,7 @@ public class EmailService : IEmailService
 
     public async Task SendBookingConfirmationAsync(string email, string bookingNumber, decimal amount)
     {
-        var subject = $"Booking Confirmed - {bookingNumber}";
+        var subject = $"Booking Confirmed - {bookingNumber} | Elite Events";
         var body = $@"
             <h2>Booking Confirmed!</h2>
             <p>Your booking <strong>{bookingNumber}</strong> has been confirmed.</p>
@@ -85,18 +87,41 @@ public class EmailService : IEmailService
     {
         try
         {
-            // In production, implement actual SMTP sending here:
-            // using var smtp = new SmtpClient();
-            // smtp.Connect(host, port, SecureSocketOptions.StartTls);
-            // smtp.Authenticate(username, password);
-            // await smtp.SendAsync(message);
+            var smtpHost = _configuration["Email:SmtpHost"] ?? "smtp.gmail.com";
+            var smtpPort = int.Parse(_configuration["Email:SmtpPort"] ?? "587");
+            var username = _configuration["Email:Username"] ?? "";
+            var password = _configuration["Email:Password"] ?? "";
+            var fromAddress = _configuration["Email:FromAddress"] ?? "noreply@eliteevents.com";
+            var fromName = _configuration["Email:FromName"] ?? "Elite Events";
 
-            _logger.LogInformation("Email sent to {Email}: {Subject}", to, subject);
-            await Task.CompletedTask;
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                _logger.LogWarning("SMTP credentials not configured. Email to {Email} with subject '{Subject}' was not sent. Configure Email:Username and Email:Password in appsettings.json", to, subject);
+                return;
+            }
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(fromName, fromAddress));
+            message.To.Add(new MailboxAddress(to, to));
+            message.Subject = subject;
+
+            var bodyBuilder = new BodyBuilder
+            {
+                HtmlBody = htmlBody
+            };
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync(smtpHost, smtpPort, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(username, password);
+            await smtp.SendAsync(message);
+            await smtp.DisconnectAsync(true);
+
+            _logger.LogInformation("Email sent successfully to {Email}: {Subject}", to, subject);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to send email to {Email}", to);
+            _logger.LogError(ex, "Failed to send email to {Email}: {Subject}", to, subject);
             // Don't throw - email failure shouldn't break the flow
         }
     }

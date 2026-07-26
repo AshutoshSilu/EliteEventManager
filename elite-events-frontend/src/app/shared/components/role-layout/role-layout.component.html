@@ -1,0 +1,74 @@
+<div class="dashboard-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <div class="sidebar-brand">
+      <span class="brand">{{ brandPrefix }}<span class="accent">{{ brandAccent }}</span></span>
+      <button class="close-btn d-lg-none" (click)="closeSidebar()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="sidebar-role-badge">
+      <span class="role-label">{{ user()?.role }}</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of filteredMenu; track item.route) {
+        <a [routerLink]="item.route"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: item.exactMatch ?? false}"
+           class="nav-item"
+           (click)="closeSidebar()">
+          <span class="material-icons">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="nav-badge">{{ item.badge }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/" class="nav-item" (click)="closeSidebar()">
+        <span class="material-icons">home</span>
+        <span class="nav-label">Back to Site</span>
+      </a>
+      <a class="nav-item" (click)="logout()">
+        <span class="material-icons">logout</span>
+        <span class="nav-label">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile -->
+  @if (sidebarOpen) {
+    <div class="sidebar-overlay d-lg-none" (click)="closeSidebar()"></div>
+  }
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="d-flex align-items-center gap-3">
+        <button class="menu-btn d-lg-none" (click)="toggleSidebar()">
+          <span class="material-icons">menu</span>
+        </button>
+        <h2>{{ panelTitle }}</h2>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn notification-btn" routerLink="notifications">
+          <span class="material-icons">notifications</span>
+          @if (unreadCount() > 0) {
+            <span class="badge-count">{{ unreadCount() }}</span>
+          }
+        </button>
+        <div class="user-avatar" [title]="user()?.fullName || 'User'">
+          {{ user()?.fullName?.charAt(0) || 'U' }}
+        </div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <router-outlet />
+    </div>
+  </main>
+</div>

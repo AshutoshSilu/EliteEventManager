@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@shared/components/header/header.component';
@@ -15,12 +15,22 @@ import { VenueListItem } from '@core/models/venue.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private eventService = inject(EventService);
   private venueService = inject(VenueService);
+  private slideInterval: any;
 
   featuredEvents = signal<EventListItem[]>([]);
   featuredVenues = signal<VenueListItem[]>([]);
+  currentSlide = 0;
+
+  heroSlides = [
+    { url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&h=1080&fit=crop' },
+    { url: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920&h=1080&fit=crop' },
+    { url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&h=1080&fit=crop' },
+    { url: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1920&h=1080&fit=crop' },
+    { url: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&h=1080&fit=crop' }
+  ];
 
   services = [
     { icon: 'celebration', title: 'Wedding Planning', description: 'Complete wedding management from venue selection to the reception. Every detail handled with care.' },
@@ -34,6 +44,33 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadFeaturedEvents();
     this.loadFeaturedVenues();
+    this.startSlideshow();
+  }
+
+  ngOnDestroy(): void {
+    this.stopSlideshow();
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+    this.restartSlideshow();
+  }
+
+  private startSlideshow(): void {
+    this.slideInterval = setInterval(() => {
+      this.currentSlide = (this.currentSlide + 1) % this.heroSlides.length;
+    }, 5000);
+  }
+
+  private stopSlideshow(): void {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+    }
+  }
+
+  private restartSlideshow(): void {
+    this.stopSlideshow();
+    this.startSlideshow();
   }
 
   private loadFeaturedEvents(): void {

@@ -31,12 +31,15 @@ public class BookingListDto
     public int Id { get; set; }
     public string BookingNumber { get; set; } = string.Empty;
     public string CustomerName { get; set; } = string.Empty;
+    public string? CustomerEmail { get; set; }
     public string? EventTitle { get; set; }
     public string? VenueName { get; set; }
     public DateOnly EventDate { get; set; }
     public int GuestCount { get; set; }
     public decimal TotalAmount { get; set; }
     public string Status { get; set; } = string.Empty;
+    public string? SpecialRequests { get; set; }
+    public string? Notes { get; set; }
     public DateTime CreatedAt { get; set; }
 }
 

@@ -22,6 +22,10 @@ export class MyBookingsComponent implements OnInit {
   statusFilter = '';
 
   ngOnInit(): void {
+    this.loadBookings();
+  }
+
+  loadBookings(): void {
     this.bookingService.getMyBookings().subscribe(res => {
       if (res.success && res.data) {
         this.bookings.set(res.data);
@@ -38,15 +42,49 @@ export class MyBookingsComponent implements OnInit {
     }
   }
 
-  cancelBooking(booking: BookingListItem): void {
-    if (confirm('Are you sure you want to cancel this booking?')) {
-      this.bookingService.cancel(booking.id, 'Customer requested cancellation').subscribe(res => {
-        if (res.success) {
-          this.toastr.success('Booking cancelled successfully');
-          booking.status = 'Cancelled';
-          this.applyFilter();
+  approveBooking(booking: BookingListItem): void {
+    if (confirm(`Approve booking ${booking.bookingNumber}? A confirmation email will be sent to the client.`)) {
+      this.bookingService.updateStatus(booking.id, 'Confirmed', 'Booking approved by customer').subscribe({
+        next: (res) => {
+          if (res.success) {
+            booking.status = 'Confirmed';
+            this.toastr.success('Booking approved! Confirmation email sent to client.', 'Approved');
+            this.applyFilter();
+          }
+        },
+        error: () => {
+          this.toastr.error('Failed to approve booking.');
         }
       });
     }
+  }
+
+  denyBooking(booking: BookingListItem): void {
+    if (confirm(`Deny booking ${booking.bookingNumber}? The client will be notified.`)) {
+      this.bookingService.updateStatus(booking.id, 'Cancelled', 'Booking denied').subscribe({
+        next: (res) => {
+          if (res.success) {
+            booking.status = 'Cancelled';
+            this.toastr.info('Booking denied. Rejection email sent to client.', 'Denied');
+            this.applyFilter();
+          }
+        },
+        error: () => {
+          this.toastr.error('Failed to deny booking.');
+        }
+      });
+    }
+  }
+
+  getClientField(booking: BookingListItem, field: string): string {
+    const source = booking.specialRequests || '';
+    const parts = source.split(',');
+    for (const part of parts) {
+      const trimmed = part.trim();
+      if (trimmed.toLowerCase().startsWith(field.toLowerCase() + ':')) {
+        return trimmed.substring(field.length + 1).trim();
+      }
+    }
+    return '';
   }
 }

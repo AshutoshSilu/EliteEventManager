@@ -61,11 +61,14 @@ export interface BookingListItem {
   id: number;
   bookingNumber: string;
   customerName: string;
+  customerEmail?: string;
   eventTitle?: string;
   venueName?: string;
   eventDate: string;
   guestCount: number;
   totalAmount: number;
   status: string;
+  specialRequests?: string;
+  notes?: string;
   createdAt: Date;
 }

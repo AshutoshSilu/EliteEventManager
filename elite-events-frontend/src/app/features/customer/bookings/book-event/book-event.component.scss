@@ -1,0 +1,175 @@
+.booking-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6366f1;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 16px;
+
+  &:hover { text-decoration: underline; }
+  .material-icons { font-size: 18px; }
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid #f1f5f9;
+
+  h3 { font-weight: 700; margin-bottom: 4px; color: #1e293b; }
+}
+
+.card-body {
+  padding: 28px;
+}
+
+.event-summary {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.event-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.event-info {
+  h4 { font-weight: 600; margin-bottom: 6px; font-size: 1.1rem; }
+  p {
+    display: flex; align-items: center; gap: 6px;
+    color: #64748b; font-size: 0.9rem; margin-bottom: 4px;
+
+    .material-icons { font-size: 16px; color: #6366f1; }
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block; font-weight: 500; margin-bottom: 8px;
+    color: #374151; font-size: 0.9rem;
+  }
+
+  .required { color: #ef4444; }
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  &.is-invalid { border-color: #ef4444; }
+}
+
+.invalid-feedback { color: #ef4444; font-size: 0.8rem; margin-top: 4px; }
+
+.guest-counter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid #e2e8f0; background: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+
+  &:hover:not(:disabled) { border-color: #6366f1; color: #6366f1; background: #f0f0ff; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .material-icons { font-size: 20px; }
+}
+
+.guest-input {
+  width: 100px; text-align: center; font-weight: 600; font-size: 1.1rem;
+}
+
+.coupon-input {
+  display: flex; gap: 8px;
+
+  .form-control { flex: 1; }
+}
+
+textarea.form-control { resize: vertical; }
+
+.form-actions {
+  margin-top: 28px;
+}
+
+// Summary Card
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  position: sticky;
+  top: 100px;
+
+  h4 { font-weight: 600; margin-bottom: 20px; color: #1e293b; }
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  color: #64748b;
+
+  &.total {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+
+    span:last-child { color: #6366f1; }
+  }
+}
+
+.summary-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #166534;
+
+  .material-icons { font-size: 16px; color: #10b981; }
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  margin: 12px 0;
+}

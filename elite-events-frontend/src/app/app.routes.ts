@@ -67,19 +67,65 @@ export const routes: Routes = [
     ]
   },
 
-  // Customer dashboard (requires authentication)
+  // Unauthorized page (403)
+  {
+    path: 'unauthorized',
+    loadComponent: () => import('./shared/components/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
+  },
+
+  // Admin panel (SuperAdmin, Admin, EventManager)
+  {
+    path: 'admin',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SuperAdmin', 'Admin', 'EventManager'] },
+    loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
+  },
+
+  // Event Coordinator panel
+  {
+    path: 'coordinator',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['EventCoordinator'] },
+    loadChildren: () => import('./features/coordinator/coordinator.routes').then(m => m.COORDINATOR_ROUTES)
+  },
+
+  // Vendor panel
+  {
+    path: 'vendor',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Vendor'] },
+    loadChildren: () => import('./features/vendor/vendor.routes').then(m => m.VENDOR_ROUTES)
+  },
+
+  // Staff panel
+  {
+    path: 'staff',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Staff'] },
+    loadChildren: () => import('./features/staff/staff.routes').then(m => m.STAFF_ROUTES)
+  },
+
+  // Volunteer panel
+  {
+    path: 'volunteer',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Volunteer'] },
+    loadChildren: () => import('./features/volunteer/volunteer.routes').then(m => m.VOLUNTEER_ROUTES)
+  },
+
+  // Client / Organizer panel
+  {
+    path: 'client',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Client'] },
+    loadChildren: () => import('./features/client/client.routes').then(m => m.CLIENT_ROUTES)
+  },
+
+  // Customer / Attendee dashboard (requires authentication)
   {
     path: 'customer',
     canActivate: [authGuard],
     loadChildren: () => import('./features/customer/customer.routes').then(m => m.CUSTOMER_ROUTES)
-  },
-
-  // Admin dashboard (requires admin/manager role)
-  {
-    path: 'admin',
-    canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrator', 'EventManager'] },
-    loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
 
   // Fallback

@@ -14,4 +14,5 @@ public interface IBookingService
     Task<ApiResponse<IReadOnlyList<BookingListDto>>> GetCustomerBookingsAsync(int customerId);
     Task<ApiResponse<IReadOnlyList<BookingListDto>>> GetBookingsByDateRangeAsync(DateOnly startDate, DateOnly endDate);
     Task<ApiResponse<int>> GetTodaysBookingCountAsync();
+    Task<int> GetCustomerIdByUserIdAsync(Guid userId);
 }

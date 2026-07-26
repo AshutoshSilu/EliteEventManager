@@ -1,0 +1,148 @@
+<div class="booking-page">
+  <a routerLink="/events" class="back-link"><span class="material-icons">arrow_back</span> Back to Events</a>
+
+  <div class="row g-4 mt-2">
+    <!-- Booking Form -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <h3>Book Event</h3>
+          <p class="text-muted mb-0">Fill in the details to reserve your spot</p>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+
+            <!-- Event Info (read-only) -->
+            @if (event()) {
+              <div class="event-summary">
+                <img [src]="event()!.coverImageUrl || 'assets/images/event-placeholder.jpg'" [alt]="event()!.title" class="event-thumb">
+                <div class="event-info">
+                  <h4>{{ event()!.title }}</h4>
+                  <p><span class="material-icons">calendar_today</span> {{ event()!.startDate | date:'fullDate' }}</p>
+                  <p><span class="material-icons">location_on</span> {{ event()!.venueName || 'TBA' }}</p>
+                </div>
+              </div>
+            }
+
+            <hr>
+
+            <!-- Event Date -->
+            <div class="form-group">
+              <label for="eventDate">Event Date <span class="required">*</span></label>
+              <input type="date" id="eventDate" class="form-control" formControlName="eventDate"
+                     [min]="minDate" [class.is-invalid]="isInvalid('eventDate')">
+              @if (isInvalid('eventDate')) {
+                <div class="invalid-feedback">Please select a valid event date.</div>
+              }
+            </div>
+
+            <!-- Guest Count -->
+            <div class="form-group">
+              <label for="guestCount">Number of Guests <span class="required">*</span></label>
+              <div class="guest-counter">
+                <button type="button" class="counter-btn" (click)="decrementGuests()" [disabled]="bookingForm.get('guestCount')!.value! <= 1">
+                  <span class="material-icons">remove</span>
+                </button>
+                <input type="number" id="guestCount" class="form-control guest-input" formControlName="guestCount"
+                       min="1" max="1000" [class.is-invalid]="isInvalid('guestCount')">
+                <button type="button" class="counter-btn" (click)="incrementGuests()">
+                  <span class="material-icons">add</span>
+                </button>
+              </div>
+              @if (isInvalid('guestCount')) {
+                <div class="invalid-feedback d-block">Enter a valid number of guests (1-1000).</div>
+              }
+            </div>
+
+            <!-- Time Preferences -->
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="startTime">Start Time</label>
+                  <input type="time" id="startTime" class="form-control" formControlName="startTime">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="endTime">End Time</label>
+                  <input type="time" id="endTime" class="form-control" formControlName="endTime">
+                </div>
+              </div>
+            </div>
+
+            <!-- Special Requests -->
+            <div class="form-group">
+              <label for="specialRequests">Special Requests</label>
+              <textarea id="specialRequests" class="form-control" formControlName="specialRequests"
+                        rows="3" placeholder="Dietary requirements, accessibility needs, decorations, etc."></textarea>
+            </div>
+
+            <!-- Coupon Code -->
+            <div class="form-group">
+              <label for="couponCode">Coupon Code (optional)</label>
+              <div class="coupon-input">
+                <input type="text" id="couponCode" class="form-control" formControlName="couponCode"
+                       placeholder="Enter coupon code">
+                <button type="button" class="btn btn-outline-custom btn-sm">Apply</button>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+              <label for="notes">Additional Notes</label>
+              <textarea id="notes" class="form-control" formControlName="notes"
+                        rows="2" placeholder="Any other information we should know..."></textarea>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary-custom btn-lg w-100" [disabled]="isSubmitting || bookingForm.invalid">
+                @if (isSubmitting) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                }
+                Confirm Booking
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-lg-4">
+      <div class="summary-card">
+        <h4>Booking Summary</h4>
+        <div class="summary-row">
+          <span>Event</span>
+          <span class="fw-medium">{{ event()?.title || 'Loading...' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Date</span>
+          <span>{{ bookingForm.get('eventDate')?.value || 'Not selected' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Guests</span>
+          <span>{{ bookingForm.get('guestCount')?.value || 0 }}</span>
+        </div>
+        <hr>
+        <div class="summary-row">
+          <span>Base Price</span>
+          <span>{{ getBasePrice() | currency:'INR' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>GST (18%)</span>
+          <span>{{ getTax() | currency:'INR' }}</span>
+        </div>
+        <hr>
+        <div class="summary-row total">
+          <span>Total Amount</span>
+          <span>{{ getTotal() | currency:'INR' }}</span>
+        </div>
+        <p class="summary-note">
+          <span class="material-icons">info</span>
+          Payment will be processed after booking confirmation.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
