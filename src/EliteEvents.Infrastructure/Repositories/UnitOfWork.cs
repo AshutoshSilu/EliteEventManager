@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork
     private IDbContextTransaction? _transaction;
 
     private IUserRepository? _users;
+    private IEmployeeRepository? _employees;
     private IEventRepository? _events;
     private IBookingRepository? _bookings;
     private IVenueRepository? _venues;
@@ -26,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public IUserRepository Users => _users ??= new UserRepository(_context);
+    public IEmployeeRepository Employees => _employees ??= new EmployeeRepository(_context);
     public IEventRepository Events => _events ??= new EventRepository(_context);
     public IBookingRepository Bookings => _bookings ??= new BookingRepository(_context);
     public IVenueRepository Venues => _venues ??= new VenueRepository(_context);

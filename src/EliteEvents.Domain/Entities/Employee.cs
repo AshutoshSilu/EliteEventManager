@@ -12,6 +12,7 @@ public class Employee : AuditableEntity
     public string? Department { get; set; }
     public string? Designation { get; set; }
     public DateOnly DateOfJoining { get; set; }
+    public string EmploymentStatus { get; set; } = "Pending Onboarding";
     public decimal? Salary { get; set; }
     public string? Address { get; set; }
     public int? CityId { get; set; }

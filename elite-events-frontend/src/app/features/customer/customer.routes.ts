@@ -40,6 +40,10 @@ export const CUSTOMER_ROUTES: Routes = [
       {
         path: 'settings',
         loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent)
+      },
+      {
+        path: 'employee-registration',
+        loadComponent: () => import('./employees/employee-registration.component').then(m => m.EmployeeRegistrationComponent)
       }
     ]
   }

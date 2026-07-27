@@ -17,6 +17,12 @@ export const ADMIN_ROUTES: Routes = [
         loadComponent: () => import('./users/users-list.component').then(m => m.UsersListComponent)
       },
       {
+        path: 'employees',
+        canActivate: [permissionGuard],
+        data: { permissions: ['users.view'] },
+        loadComponent: () => import('./users/users-list.component').then(m => m.UsersListComponent)
+      },
+      {
         path: 'roles',
         canActivate: [permissionGuard],
         data: { permissions: ['roles.manage'] },

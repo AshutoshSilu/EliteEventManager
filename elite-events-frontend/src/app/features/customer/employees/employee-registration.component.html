@@ -1,0 +1,370 @@
+<div class="employee-page-wrapper">
+  <div class="employee-page-card">
+    <div class="card-header">
+      <div>
+        <h2>Employee Page</h2>
+        <p>View employee details and register new employees</p>
+      </div>
+      <button type="button" class="btn btn-primary-custom" (click)="openRegisterPopup()">Register</button>
+    </div>
+
+    <div class="filters-row">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by name, email, or mobile"
+        [(ngModel)]="searchTerm">
+
+      <select class="form-select" [(ngModel)]="roleFilter">
+        <option value="">All Roles</option>
+        @for (role of availableRoles(); track role) {
+          <option [value]="role">{{ role }}</option>
+        }
+      </select>
+
+      <select class="form-select" [(ngModel)]="statusFilter">
+        <option value="">All Statuses</option>
+        <option value="Pending Onboarding">Pending Onboarding</option>
+        <option value="Onboarded">Onboarded</option>
+        <option value="Resigned">Resigned</option>
+        <option value="Terminated">Terminated</option>
+      </select>
+
+      <button type="button" class="btn btn-outline-clear" (click)="clearFilters()">Clear</button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table employee-table">
+        <thead>
+          <tr>
+            <th>Profile</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Mobile Number</th>
+            <th>Role</th>
+            <th>Joining Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (isLoadingEmployees) {
+            <tr>
+              <td colspan="8" class="text-center text-muted py-4">Loading employees...</td>
+            </tr>
+          } @else {
+            @for (employee of filteredEmployees(); track employee.userId) {
+              <tr>
+                <td>
+                  @if (employee.profilePhotoUrl) {
+                    <img class="avatar-img" [src]="resolveImageUrl(employee.profilePhotoUrl, '')" alt="Profile photo">
+                  } @else {
+                    <div class="avatar-sm">{{ employee.firstName.charAt(0) }}</div>
+                  }
+                </td>
+                <td>
+                  <button type="button" class="employee-link-btn" (click)="openEmployeeDetails(employee.userId)">
+                    {{ employee.fullName }}
+                  </button>
+                </td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.mobileNumber || '—' }}</td>
+                <td>{{ employee.roleName }}</td>
+                <td>{{ employee.joiningDate | date:'mediumDate' }}</td>
+                <td>{{ employee.currentStatus }}</td>
+                <td>
+                  <div class="action-buttons">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-onboard"
+                      [disabled]="processingUserId !== null"
+                      (click)="onboardEmployee(employee.userId)">
+                      Onboard Employee
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-terminate"
+                      [disabled]="processingUserId !== null"
+                      (click)="terminateEmployee(employee.userId)">
+                      Terminate Employee
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="8" class="text-center text-muted py-4">No employees found.</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+@if (showRegisterPopup) {
+  <div class="popup-overlay" (click)="closeRegisterPopup()">
+    <div class="register-popup" (click)="$event.stopPropagation()">
+      <button type="button" class="popup-close-btn" (click)="closeRegisterPopup()" aria-label="Close registration popup">
+        <span class="material-icons">close</span>
+      </button>
+
+      <div class="popup-header">
+        <h3>Register Employee</h3>
+        <p>Fill in the details to add a new employee.</p>
+      </div>
+
+      <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" class="form-control" formControlName="firstName" placeholder="First name"
+                     [class.is-invalid]="isFieldInvalid('firstName')">
+              @if (isFieldInvalid('firstName')) {
+                <div class="invalid-feedback">First name is required.</div>
+              }
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" class="form-control" formControlName="lastName" placeholder="Last name"
+                     [class.is-invalid]="isFieldInvalid('lastName')">
+              @if (isFieldInvalid('lastName')) {
+                <div class="invalid-feedback">Last name is required.</div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" formControlName="email" placeholder="name@example.com"
+                     [class.is-invalid]="isFieldInvalid('email')">
+              @if (isFieldInvalid('email')) {
+                <div class="invalid-feedback">
+                  @if (employeeForm.get('email')?.errors?.['required']) { Email is required. }
+                  @if (employeeForm.get('email')?.errors?.['email']) { Enter a valid email address. }
+                </div>
+              }
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <input type="tel" class="form-control" formControlName="mobileNumber" placeholder="+91 XXXXX XXXXX"
+                     [class.is-invalid]="isFieldInvalid('mobileNumber')">
+              @if (isFieldInvalid('mobileNumber')) {
+                <div class="invalid-feedback">
+                  @if (employeeForm.get('mobileNumber')?.errors?.['required']) { Mobile number is required. }
+                  @if (employeeForm.get('mobileNumber')?.errors?.['pattern']) { Enter a valid mobile number. }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Role</label>
+              <select class="form-select" formControlName="roleId" [class.is-invalid]="isFieldInvalid('roleId')">
+                <option [ngValue]="null">Select role</option>
+                @for (role of roleOptions; track role.id) {
+                  <option [ngValue]="role.id">{{ role.label }}</option>
+                }
+              </select>
+              @if (isFieldInvalid('roleId')) {
+                <div class="invalid-feedback">Role is required.</div>
+              }
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Joining Date</label>
+              <input type="date" class="form-control" formControlName="joiningDate"
+                     [class.is-invalid]="isFieldInvalid('joiningDate')">
+              @if (isFieldInvalid('joiningDate')) {
+                <div class="invalid-feedback">Joining date is required.</div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Profile Photo</label>
+          <input type="file" accept="image/*" class="form-control" (change)="onPhotoSelected($event)"
+                 [class.is-invalid]="isFieldInvalid('profilePhoto')">
+          @if (isFieldInvalid('profilePhoto')) {
+            <div class="invalid-feedback">Profile photo is required.</div>
+          }
+        </div>
+
+        @if (photoPreview) {
+          <div class="photo-preview mb-3">
+            <img [src]="photoPreview" alt="Profile preview">
+          </div>
+        }
+
+        <button type="submit" class="btn btn-primary-custom" [disabled]="isSubmitting">
+          @if (isSubmitting) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          }
+          Register Employee
+        </button>
+      </form>
+    </div>
+  </div>
+}
+
+@if (showDetailsPopup) {
+  <div class="popup-overlay" (click)="closeEmployeeDetails()">
+    <div class="register-popup details-popup" (click)="$event.stopPropagation()">
+      <button type="button" class="popup-close-btn" (click)="closeEmployeeDetails()" aria-label="Close employee details popup">
+        <span class="material-icons">close</span>
+      </button>
+
+      <div class="popup-header">
+        <h3>Employee Details</h3>
+        <p>View, edit, and generate employee ID card.</p>
+      </div>
+
+      @if (isLoadingDetails) {
+        <div class="text-center text-muted py-4">Loading employee details...</div>
+      } @else if (selectedEmployee(); as employee) {
+        @if (!isEditingDetails) {
+          <div class="details-profile-block">
+            @if (employee.profilePhotoUrl) {
+              <img class="details-avatar" [src]="resolveImageUrl(employee.profilePhotoUrl, '')" alt="Employee photo">
+            } @else {
+              <div class="details-avatar-fallback">{{ employee.firstName.charAt(0) }}</div>
+            }
+            <div>
+              <h4>{{ employee.fullName }}</h4>
+              <p>{{ employee.designation || employee.roleName }}</p>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div><span>Employee ID</span><strong>{{ employee.employeeCode || 'N/A' }}</strong></div>
+            <div><span>Email</span><strong>{{ employee.email }}</strong></div>
+            <div><span>Mobile</span><strong>{{ employee.mobileNumber || 'N/A' }}</strong></div>
+            <div><span>Role</span><strong>{{ employee.roleName }}</strong></div>
+            <div><span>Department</span><strong>{{ employee.department || 'N/A' }}</strong></div>
+            <div><span>Joining Date</span><strong>{{ employee.joiningDate | date:'mediumDate' }}</strong></div>
+            <div><span>Status</span><strong>{{ employee.currentStatus }}</strong></div>
+            <div><span>Address</span><strong>{{ employee.address || 'N/A' }}</strong></div>
+          </div>
+
+          <div class="details-actions">
+            <button type="button" class="btn btn-primary-custom" (click)="startEditDetails()">Edit</button>
+            <button type="button" class="btn btn-id-card" [disabled]="isGeneratingIdCard" (click)="generateIdCardPdf()">
+              @if (isGeneratingIdCard) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+              }
+              Generate ID Card
+            </button>
+          </div>
+        } @else {
+          <form [formGroup]="employeeDetailsForm" (ngSubmit)="saveEmployeeDetails()">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input type="text" class="form-control" formControlName="firstName" [class.is-invalid]="isDetailFieldInvalid('firstName')">
+                  @if (isDetailFieldInvalid('firstName')) {
+                    <div class="invalid-feedback">First name is required.</div>
+                  }
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control" formControlName="lastName" [class.is-invalid]="isDetailFieldInvalid('lastName')">
+                  @if (isDetailFieldInvalid('lastName')) {
+                    <div class="invalid-feedback">Last name is required.</div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" class="form-control" formControlName="email" [class.is-invalid]="isDetailFieldInvalid('email')">
+                  @if (isDetailFieldInvalid('email')) {
+                    <div class="invalid-feedback">Enter a valid email.</div>
+                  }
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mobile Number</label>
+                  <input type="tel" class="form-control" formControlName="mobileNumber" [class.is-invalid]="isDetailFieldInvalid('mobileNumber')">
+                  @if (isDetailFieldInvalid('mobileNumber')) {
+                    <div class="invalid-feedback">Enter a valid mobile number.</div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Role</label>
+                  <select class="form-select" formControlName="roleId" [class.is-invalid]="isDetailFieldInvalid('roleId')">
+                    <option [ngValue]="null">Select role</option>
+                    @for (role of roleOptions; track role.id) {
+                      <option [ngValue]="role.id">{{ role.label }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Joining Date</label>
+                  <input type="date" class="form-control" formControlName="joiningDate" [class.is-invalid]="isDetailFieldInvalid('joiningDate')">
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Department</label>
+                  <input type="text" class="form-control" formControlName="department">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Designation</label>
+                  <input type="text" class="form-control" formControlName="designation">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Address</label>
+              <textarea rows="2" class="form-control" formControlName="address"></textarea>
+            </div>
+
+            <div class="details-actions">
+              <button type="button" class="btn btn-outline-clear" (click)="cancelEditDetails()">Cancel</button>
+              <button type="submit" class="btn btn-primary-custom" [disabled]="isSavingDetails">
+                @if (isSavingDetails) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                }
+                Save Changes
+              </button>
+            </div>
+          </form>
+        }
+      }
+    </div>
+  </div>
+}

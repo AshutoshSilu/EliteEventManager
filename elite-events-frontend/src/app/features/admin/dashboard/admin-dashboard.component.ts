@@ -89,6 +89,7 @@ import { DashboardKpi, MonthlySales } from '@core/models/payment.model';
             <div class="chart-card">
               <div class="card-head"><h5>Recent Bookings</h5><a routerLink="/admin/bookings" class="link">View All</a></div>
               <p class="text-muted small">Today: {{ kpis()?.todaysBookings || 0 }} bookings</p>
+              <a routerLink="/admin/employees" class="btn btn-sm btn-outline-custom mt-3">Open Employee Management</a>
             </div>
           </div>
           <div class="col-lg-6">

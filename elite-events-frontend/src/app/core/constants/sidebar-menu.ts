@@ -40,6 +40,12 @@ export const ADMIN_SIDEBAR_MENU: SidebarMenuItem[] = [
     permissions: ['users.view'],
   },
   {
+    label: 'Employee Management',
+    icon: 'badge',
+    route: '/admin/employees',
+    permissions: ['users.view'],
+  },
+  {
     label: 'Role Management',
     icon: 'admin_panel_settings',
     route: '/admin/roles',

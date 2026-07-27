@@ -6,6 +6,7 @@ namespace EliteEvents.Domain.Interfaces;
 public interface IUnitOfWork : IDisposable
 {
     IUserRepository Users { get; }
+    IEmployeeRepository Employees { get; }
     IEventRepository Events { get; }
     IBookingRepository Bookings { get; }
     IVenueRepository Venues { get; }

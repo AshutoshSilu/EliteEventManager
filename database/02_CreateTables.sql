@@ -141,6 +141,7 @@ CREATE TABLE [dbo].[Employees] (
     [Department]      NVARCHAR(100) NULL,
     [Designation]     NVARCHAR(100) NULL,
     [DateOfJoining]   DATE NOT NULL,
+    [EmploymentStatus] NVARCHAR(30) NOT NULL DEFAULT 'Pending Onboarding',
     [Salary]          DECIMAL(18,2) NULL,
     [Address]         NVARCHAR(500) NULL,
     [CityId]          INT NULL,
@@ -150,7 +151,9 @@ CREATE TABLE [dbo].[Employees] (
     CONSTRAINT [FK_Employees_Users] FOREIGN KEY ([UserId])
         REFERENCES [dbo].[Users]([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_Employees_Cities] FOREIGN KEY ([CityId])
-        REFERENCES [dbo].[Cities]([Id])
+        REFERENCES [dbo].[Cities]([Id]),
+    CONSTRAINT [CK_Employees_EmploymentStatus]
+        CHECK ([EmploymentStatus] IN ('Pending Onboarding', 'Onboarded', 'Resigned', 'Terminated'))
 );
 GO
 

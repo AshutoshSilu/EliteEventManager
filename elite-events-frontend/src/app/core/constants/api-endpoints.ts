@@ -18,6 +18,13 @@ export const API_ENDPOINTS = {
     profile: `${BASE}/users/profile`,
     byRole: (roleId: number) => `${BASE}/users/role/${roleId}`
   },
+  employees: {
+    base: `${BASE}/employees`,
+    byUserId: (userId: string) => `${BASE}/employees/${userId}`,
+    onboard: (userId: string) => `${BASE}/employees/${userId}/onboard`,
+    resign: (userId: string) => `${BASE}/employees/${userId}/resign`,
+    terminate: (userId: string) => `${BASE}/employees/${userId}/terminate`
+  },
   events: {
     base: `${BASE}/events`,
     featured: `${BASE}/events/featured`,

@@ -31,6 +31,7 @@ public interface IEmailService
     Task SendBookingConfirmationAsync(string email, string bookingNumber, decimal amount);
     Task SendPaymentConfirmationAsync(string email, string paymentNumber, decimal amount);
     Task SendNotificationEmailAsync(string email, string subject, string body);
+    Task SendWelcomeLetterAsync(string email, string employeeName, string employeeCode, string position, string? mobileNumber);
 }
 
 /// <summary>

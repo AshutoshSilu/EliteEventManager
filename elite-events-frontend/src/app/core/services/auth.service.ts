@@ -125,9 +125,11 @@ export class AuthService {
     localStorage.setItem(APP_CONSTANTS.refreshTokenKey, data.refreshToken);
 
     // Build roles array: use server-provided roles, or fall back to single role
+    const normalizedPrimaryRole = this.normalizeRole(data.role as string);
+
     const roles: Role[] = data.roles && data.roles.length > 0
-      ? data.roles
-      : [data.role as Role];
+      ? data.roles.map(r => this.normalizeRole(r as string))
+      : [normalizedPrimaryRole];
 
     // Build permissions: use server-provided or let PermissionService derive from roles
     const permissions: Permission[] = data.permissions ?? [];
@@ -136,7 +138,7 @@ export class AuthService {
       userId: data.userId,
       email: data.email,
       fullName: data.fullName,
-      role: data.role,
+      role: normalizedPrimaryRole,
       roles: roles,
       permissions: permissions,
       profileImageUrl: data.profileImageUrl
@@ -164,6 +166,12 @@ export class AuthService {
     if (!userData) return null;
 
     const user = JSON.parse(userData) as AuthUser;
+    if (user.role) {
+      user.role = this.normalizeRole(user.role as string);
+    }
+    if (user.roles && user.roles.length > 0) {
+      user.roles = user.roles.map(r => this.normalizeRole(r as string));
+    }
     // Ensure backward compatibility: if roles/permissions arrays are missing, derive them
     if (!user.roles) {
       user.roles = user.role ? [user.role as Role] : [];
@@ -172,5 +180,12 @@ export class AuthService {
       user.permissions = [];
     }
     return user;
+  }
+
+  private normalizeRole(role: string): Role {
+    if (role === 'Administrator') {
+      return ROLES.ADMIN;
+    }
+    return role as Role;
   }
 }
