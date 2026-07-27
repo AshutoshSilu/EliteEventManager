@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="Venue image placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#e0ecff"/>
+      <stop offset="100%" stop-color="#c8dbff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+  <circle cx="230" cy="180" r="80" fill="#9bb8f2" opacity="0.45"/>
+  <circle cx="990" cy="520" r="120" fill="#9bb8f2" opacity="0.35"/>
+  <rect x="220" y="260" width="760" height="260" rx="24" fill="#ffffff" opacity="0.85"/>
+  <rect x="280" y="320" width="200" height="140" rx="12" fill="#7da1e8"/>
+  <rect x="520" y="334" width="380" height="24" rx="12" fill="#9bb8f2"/>
+  <rect x="520" y="378" width="300" height="20" rx="10" fill="#b3c8f4"/>
+  <rect x="520" y="416" width="220" height="20" rx="10" fill="#c3d3f6"/>
+  <text x="600" y="590" text-anchor="middle" font-family="Segoe UI, Tahoma, sans-serif" font-size="36" fill="#34538c">Venue image coming soon</text>
+</svg>

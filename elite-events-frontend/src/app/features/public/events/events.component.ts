@@ -6,6 +6,7 @@ import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { EventService } from '@core/services/event.service';
 import { EventListItem, EventCategory } from '@core/models/event.model';
+import { resolveImageUrl } from '@core/utils/image-url.util';
 
 @Component({
   selector: 'app-events',
@@ -16,6 +17,7 @@ import { EventListItem, EventCategory } from '@core/models/event.model';
 })
 export class EventsComponent implements OnInit {
   private eventService = inject(EventService);
+  readonly resolveImageUrl = resolveImageUrl;
 
   events = signal<EventListItem[]>([]);
   categories = signal<EventCategory[]>([]);

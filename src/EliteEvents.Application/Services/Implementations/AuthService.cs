@@ -5,6 +5,8 @@ using EliteEvents.Application.Services.Interfaces;
 using EliteEvents.Domain.Entities;
 using EliteEvents.Domain.Enums;
 using EliteEvents.Domain.Interfaces;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EliteEvents.Application.Services.Implementations;
 
@@ -161,19 +163,26 @@ public class AuthService : IAuthService
             return ApiResponse.SuccessResponse("If the email exists, a reset link has been sent.");
         }
 
-        user.PasswordResetToken = Guid.NewGuid().ToString();
+        var rawToken = GenerateRawResetToken();
+        user.PasswordResetToken = HashToken(rawToken);
         user.PasswordResetExpiry = DateTime.UtcNow.AddHours(1);
         _unitOfWork.Users.Update(user);
         await _unitOfWork.SaveChangesAsync();
 
-        await _emailService.SendPasswordResetAsync(user.Email, user.PasswordResetToken);
+        await _emailService.SendPasswordResetAsync(user.Email, rawToken);
 
         return ApiResponse.SuccessResponse("If the email exists, a reset link has been sent.");
     }
 
     public async Task<ApiResponse> ResetPasswordAsync(ResetPasswordDto dto)
     {
-        var user = await _unitOfWork.Users.GetByPasswordResetTokenAsync(dto.Token);
+        if (dto.NewPassword != dto.ConfirmPassword)
+        {
+            return ApiResponse.FailResponse("Passwords do not match.");
+        }
+
+        var hashedToken = HashToken(dto.Token);
+        var user = await _unitOfWork.Users.GetByPasswordResetTokenAsync(hashedToken);
 
         if (user == null || user.PasswordResetExpiry < DateTime.UtcNow)
         {
@@ -183,10 +192,28 @@ public class AuthService : IAuthService
         user.PasswordHash = _passwordHasher.HashPassword(dto.NewPassword);
         user.PasswordResetToken = null;
         user.PasswordResetExpiry = null;
+        user.RefreshToken = null;
+        user.RefreshTokenExpiry = null;
         _unitOfWork.Users.Update(user);
         await _unitOfWork.SaveChangesAsync();
 
         return ApiResponse.SuccessResponse("Password has been reset successfully.");
+    }
+
+    private static string GenerateRawResetToken()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(32);
+        return Convert.ToBase64String(bytes)
+            .TrimEnd('=')
+            .Replace('+', '-')
+            .Replace('/', '_');
+    }
+
+    private static string HashToken(string token)
+    {
+        var bytes = Encoding.UTF8.GetBytes(token);
+        var hash = SHA256.HashData(bytes);
+        return Convert.ToHexString(hash);
     }
 
     public async Task<ApiResponse> ChangePasswordAsync(Guid userId, ChangePasswordDto dto)

@@ -6,9 +6,16 @@ import { AuthService } from '../services/auth.service';
  * Prevents authenticated users from accessing login/register pages.
  * Redirects to the user's role-appropriate dashboard.
  */
-export const noAuthGuard: CanActivateFn = () => {
+export const noAuthGuard: CanActivateFn = (_, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+
+  // Always allow reset and recovery screens for a better UX.
+  const currentPath = state.url.split('?')[0];
+  const recoveryPaths = ['/auth/forgot-password', '/auth/reset-password'];
+  if (recoveryPaths.includes(currentPath)) {
+    return true;
+  }
 
   if (!authService.isLoggedIn()) {
     return true;

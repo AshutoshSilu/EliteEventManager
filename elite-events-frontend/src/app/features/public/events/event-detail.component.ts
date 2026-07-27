@@ -9,6 +9,7 @@ import { AuthService } from '@core/services/auth.service';
 import { BookingService } from '@core/services/booking.service';
 import { Event } from '@core/models/event.model';
 import { ToastrService } from 'ngx-toastr';
+import { resolveImageUrl } from '@core/utils/image-url.util';
 
 @Component({
   selector: 'app-event-detail',
@@ -25,6 +26,7 @@ export class EventDetailComponent implements OnInit {
   private authService = inject(AuthService);
   private bookingService = inject(BookingService);
   private toastr = inject(ToastrService);
+  readonly resolveImageUrl = resolveImageUrl;
 
   event = signal<Event | null>(null);
   isLoggedIn = this.authService.isLoggedIn;

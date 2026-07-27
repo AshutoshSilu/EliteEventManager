@@ -15,7 +15,7 @@
             <!-- Event Info (read-only) -->
             @if (event()) {
               <div class="event-summary">
-                <img [src]="event()!.coverImageUrl || 'assets/images/event-placeholder.jpg'" [alt]="event()!.title" class="event-thumb">
+                <img [src]="resolveImageUrl(event()!.coverImageUrl, 'assets/images/event-placeholder.svg')" [alt]="event()!.title" class="event-thumb">
                 <div class="event-info">
                   <h4>{{ event()!.title }}</h4>
                   <p><span class="material-icons">calendar_today</span> {{ event()!.startDate | date:'fullDate' }}</p>

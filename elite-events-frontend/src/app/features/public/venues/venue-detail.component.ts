@@ -5,6 +5,7 @@ import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { VenueService } from '@core/services/venue.service';
 import { Venue } from '@core/models/venue.model';
+import { resolveImageUrl } from '@core/utils/image-url.util';
 
 @Component({
   selector: 'app-venue-detail',
@@ -16,6 +17,7 @@ import { Venue } from '@core/models/venue.model';
 export class VenueDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private venueService = inject(VenueService);
+  readonly resolveImageUrl = resolveImageUrl;
   venue = signal<Venue | null>(null);
 
   ngOnInit(): void {

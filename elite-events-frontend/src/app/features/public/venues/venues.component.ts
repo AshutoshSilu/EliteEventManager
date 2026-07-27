@@ -6,6 +6,7 @@ import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { VenueService } from '@core/services/venue.service';
 import { VenueListItem } from '@core/models/venue.model';
+import { resolveImageUrl } from '@core/utils/image-url.util';
 
 @Component({
   selector: 'app-venues',
@@ -16,6 +17,7 @@ import { VenueListItem } from '@core/models/venue.model';
 })
 export class VenuesComponent implements OnInit {
   private venueService = inject(VenueService);
+  readonly resolveImageUrl = resolveImageUrl;
   venues = signal<VenueListItem[]>([]);
   searchTerm = '';
   sortBy = '';

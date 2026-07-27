@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row g-4">
         <div class="col-lg-8">
-          <img [src]="event()!.coverImageUrl || 'assets/images/event-placeholder.jpg'" class="event-cover" [alt]="event()!.title">
+          <img [src]="resolveImageUrl(event()!.coverImageUrl, 'assets/images/event-placeholder.svg')" class="event-cover" [alt]="event()!.title">
           <h1 class="mt-4">{{ event()!.title }}</h1>
           <div class="event-badges">
             <span class="badge bg-primary">{{ event()!.categoryName }}</span>
@@ -17,7 +17,7 @@
             <h4 class="mt-4">Gallery</h4>
             <div class="gallery-grid">
               @for (img of event()!.images; track img.id) {
-                <img [src]="img.imageUrl" [alt]="img.caption || event()!.title" class="gallery-img">
+                <img [src]="resolveImageUrl(img.imageUrl, 'assets/images/event-placeholder.svg')" [alt]="img.caption || event()!.title" class="gallery-img">
               }
             </div>
           }

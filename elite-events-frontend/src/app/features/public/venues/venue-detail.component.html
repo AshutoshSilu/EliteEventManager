@@ -4,11 +4,11 @@
         <div class="container">
           <div class="row g-4">
             <div class="col-lg-8">
-              <img [src]="venue()!.coverImageUrl || 'assets/images/venue-placeholder.jpg'" class="cover-img" [alt]="venue()!.name">
+              <img [src]="resolveImageUrl(venue()!.coverImageUrl, 'assets/images/venue-placeholder.svg')" class="cover-img" [alt]="venue()!.name">
               @if (venue()!.images?.length) {
                 <div class="gallery-row mt-3">
                   @for (img of venue()!.images; track img.id) {
-                    <img [src]="img.imageUrl" [alt]="img.caption" class="thumb-img">
+                    <img [src]="resolveImageUrl(img.imageUrl, 'assets/images/venue-placeholder.svg')" [alt]="img.caption" class="thumb-img">
                   }
                 </div>
               }

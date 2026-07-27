@@ -7,6 +7,7 @@ import { EventService } from '@core/services/event.service';
 import { VenueService } from '@core/services/venue.service';
 import { EventListItem } from '@core/models/event.model';
 import { VenueListItem } from '@core/models/venue.model';
+import { resolveImageUrl } from '@core/utils/image-url.util';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private eventService = inject(EventService);
   private venueService = inject(VenueService);
   private slideInterval: any;
+  readonly resolveImageUrl = resolveImageUrl;
 
   featuredEvents = signal<EventListItem[]>([]);
   featuredVenues = signal<VenueListItem[]>([]);

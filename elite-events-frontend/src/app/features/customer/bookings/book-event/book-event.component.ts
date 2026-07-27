@@ -7,6 +7,7 @@ import { EventService } from '@core/services/event.service';
 import { Event } from '@core/models/event.model';
 import { BookingCreateRequest } from '@core/models/booking.model';
 import { ToastrService } from 'ngx-toastr';
+import { resolveImageUrl } from '@core/utils/image-url.util';
 
 @Component({
   selector: 'app-book-event',
@@ -22,6 +23,7 @@ export class BookEventComponent implements OnInit {
   private bookingService = inject(BookingService);
   private eventService = inject(EventService);
   private toastr = inject(ToastrService);
+  readonly resolveImageUrl = resolveImageUrl;
 
   event = signal<Event | null>(null);
   isSubmitting = false;

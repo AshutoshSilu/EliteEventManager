@@ -78,7 +78,7 @@
         <div class="col-lg-4 col-md-6">
           <div class="event-card card-hover">
             <div class="event-image">
-              <img [src]="event.coverImageUrl || 'assets/images/event-placeholder.jpg'" [alt]="event.title">
+              <img [src]="resolveImageUrl(event.coverImageUrl, 'assets/images/event-placeholder.svg')" [alt]="event.title">
               <span class="event-badge">{{ event.categoryName }}</span>
             </div>
             <div class="event-body">
@@ -113,7 +113,7 @@
       @for (venue of featuredVenues(); track venue.id) {
         <div class="col-lg-4 col-md-6">
           <div class="venue-card card-hover">
-            <img [src]="venue.coverImageUrl || 'assets/images/venue-placeholder.jpg'" [alt]="venue.name" class="venue-img">
+            <img [src]="resolveImageUrl(venue.coverImageUrl, 'assets/images/venue-placeholder.svg')" [alt]="venue.name" class="venue-img">
             <div class="venue-body">
               <h5>{{ venue.name }}</h5>
               <p class="venue-address"><i class="material-icons">location_on</i> {{ venue.address }}</p>
